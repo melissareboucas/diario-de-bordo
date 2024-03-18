@@ -60,7 +60,7 @@ O sistema contém as seguintes funcionalidades:
 
 ## **6. Arquitetura**
 
-WIP
+[arquitetura](arquitetura.png)
 
 ## 7. Configuração Ambiente
 

@@ -60,7 +60,7 @@ O sistema contém as seguintes funcionalidades:
 
 ## **6. Arquitetura**
 
-[arquitetura](arquitetura.png)
+![arquitetura](arquitetura.png)
 
 ## 7. Configuração Ambiente
 

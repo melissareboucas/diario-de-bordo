@@ -8,7 +8,7 @@ export default function EditTravelForm({
 }: {
     travel: TravelForm;
 }) {
-    console.log(travel)
+    
     const updateTravelWithId = updateTravel.bind(null, travel.id);
     return (
         <form action={updateTravelWithId}>

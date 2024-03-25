@@ -3,13 +3,16 @@
 import TopMenu from "@/app/components/topMenu";
 import { createTravel } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import { Suspense } from "react";
 
 export default async function Create() {
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createTravel, initialState);
     return (
         <main>
-            <TopMenu />
+            <Suspense>
+                <TopMenu />
+            </Suspense>
             <form action={dispatch}>
                 <div className="rounded-md bg-gray-50 p-4 md:p-6">
                     {/* user_id */}

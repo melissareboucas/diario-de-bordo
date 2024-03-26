@@ -3,21 +3,12 @@
 import Link from "next/link"
 
 import {
-    GlobeAmericasIcon,
-    MapIcon,
-    BuildingOffice2Icon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 import Image from 'next/image';
-
-const links = [
-    { name: 'Cities', href: '/profile/cities', icon: BuildingOffice2Icon },
-    { name: 'Countries', href: '/profile/countries', icon: GlobeAmericasIcon },
-    { name: 'Travels', href: '/profile/travels', icon: MapIcon },
-];
 
 
 export default function TopMenu() {

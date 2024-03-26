@@ -13,129 +13,103 @@ export default async function Create() {
             <Suspense>
                 <TopMenu />
             </Suspense>
-            <form action={dispatch}>
-                <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                    {/* user_id */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            user_id
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
-                                <input
-                                    id="user_id"
-                                    name="user_id"
-                                    type="string"
-                                    placeholder="origincity"
-                                    readOnly
-                                    value={"410544b2-4001-4271-9855-fec4b6a6442a"}
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                />
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* Origin city */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            Origin city
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
+            <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
+                <div className="m-10 text-custom-dark-blue font-bold text-4xl">
+                    Como foi sua viagem?
+                </div>
+                <div className="flex justify-between ml-10 mr-16">
+                    <form action={dispatch} className="w-2/3">
+                        <div className="mr-64">
+                            {/*User Id, informação escondida que tem que ser enviada*/}
+                            <input
+                                id="user_id"
+                                name="user_id"
+
+                                placeholder="origincity"
+                                type="hidden"
+                                readOnly
+                                value={"410544b2-4001-4271-9855-fec4b6a6442a"}
+                                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                            />
+
+                            {/* Origem */}
+                            <div className="flex gap-4 mt-8">
                                 <input
                                     id="origincity"
                                     name="origincity"
                                     type="string"
-                                    placeholder="origincity"
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    placeholder="Saindo de: Cidade"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                                 />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Origin country */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            Origin country
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
                                 <input
                                     id="origincountry"
                                     name="origincountry"
                                     type="string"
-                                    placeholder="origincountry"
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    placeholder="Saindo de: País"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                                 />
                             </div>
-                        </div>
-                    </div>
 
-                    {/* destiny city */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            Destiny city
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
+                            {/* destino */}
+                            <div className="flex gap-4 mt-8">
                                 <input
                                     id="destinycity"
                                     name="destinycity"
                                     type="string"
-                                    placeholder="destinycity"
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    placeholder="Chegando em: Cidade"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                                 />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* destiny country */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            Destiny country
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
                                 <input
                                     id="destinycountry"
                                     name="destinycountry"
                                     type="string"
-                                    placeholder="destinycountry"
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    placeholder="Chegando em: País"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                                 />
                             </div>
-                        </div>
-                    </div>
 
-                    {/* distance */}
-                    <div className="mb-4">
-                        <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                            Distance
-                        </label>
-                        <div className="relative mt-2 rounded-md">
-                            <div className="relative">
+                            {/* Distância */}
+                            <div className="mt-8">
                                 <input
                                     id="distanceinmeters"
                                     name="distanceinmeters"
                                     type="string"
-                                    placeholder="distanceinmeters"
-                                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                                    placeholder="Distância (em metros)"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                                 />
                             </div>
-                        </div>
-                    </div>
 
+                            {/* Comentário */}
+                            <div className="mt-8">
+                                <textarea
+                                    id="comment"
+                                    name="comment"
+                                    placeholder="Comentário"
+                                    className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
+                                />
+                            </div>
+
+
+                            <div className="mt-6 flex justify-start gap-4">
+                                <a
+                                    href="/profile/travels"
+                                    className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200 focus:outline-custom-medium-blue"
+                                >
+                                    Cancelar
+                                </a>
+                                <button type="submit" className="flex h-10 items-center rounded-lg bg-custom-medium-blue px-4 text-sm font-medium text-white transition-colors hover:bg-custom-light-blue focus:outline-custom-medium-blue">Adicionar</button>
+                            </div>
+                        </div>
+                    </form>
+                    <img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>
                 </div>
-                <div className="mt-6 flex justify-end gap-4">
-                    <a
-                        href="/profile/travels"
-                        className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-                    >
-                        Cancel
-                    </a>
-                    <button type="submit">Create Travel</button>
-                </div>
-            </form>
+
+            </div>
+
+
+
+
         </main>
     );
 }

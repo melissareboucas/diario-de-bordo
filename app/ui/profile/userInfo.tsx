@@ -5,6 +5,8 @@ import {
     ArrowsPointingOutIcon
 } from '@heroicons/react/24/outline';
 
+import Link from 'next/link';
+
 export default function UserInfo({
     user
 }: {
@@ -32,12 +34,15 @@ export default function UserInfo({
                         className='rounded-full border border-4 border-custom-medium-blue'
                         style={{ width: '210px', height: '210px' }} />
                 </div>
-                
+
                 <div className="ml-64 flex flex-col gap-2">
                     <p className='text-custom-medium-blue'>{user.email}</p>
                     <p className='text-custom-dark-blue text-2xl'>{user.name}</p>
                 </div>
-                <button className='mr-16 text-custom-dark-blue border border-md rounded-lg px-4 py-2 border-custom-medium-blue'>Adicionar diário de bordo</button>
+                <Link key='addTravel' href='/profile/travels/create'>
+                    <button className='mr-16 text-custom-dark-blue border border-md rounded-lg px-4 py-2 border-custom-medium-blue'>Adicionar diário de bordo</button>
+
+                </Link>
             </div>
         </>
     );

@@ -1,6 +1,6 @@
 "use client"
 
-import TopMenu from "@/app/components/topMenu";
+import TopMenu from "@/app/ui/topMenu";
 import { createTravel } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Suspense } from "react";

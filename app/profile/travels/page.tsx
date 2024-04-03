@@ -1,4 +1,4 @@
-import TopMenu from "@/app/components/topMenu"
+import TopMenu from "@/app/ui/topMenu"
 import { fetchTravelsPages } from '@/app/lib/data';
 import TravelsTable from "@/app/ui/travels/table";
 import Pagination from "@/app/ui/travels/pagination";

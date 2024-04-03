@@ -15,9 +15,6 @@ const links = [
   ];
 
 export default function Card({ title, img_url }: CardProps) {
-    function handleOpenValue() {
-        console.log("abrir valor")
-    }
 
     const link = links.find(link => link.title === title); 
 
@@ -28,7 +25,7 @@ export default function Card({ title, img_url }: CardProps) {
                     <h2 className="absolute top-0 left-0 z-10 text-white p-6 text-5xl">{title}</h2>
                     <button
                         className='absolute top-0 right-0 text-white h-10 w-10 mr-8 mt-4'
-                        onClick={handleOpenValue}
+                        
                     >
                         <ChevronDownIcon />
                     </button>

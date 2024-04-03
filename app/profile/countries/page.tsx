@@ -1,4 +1,4 @@
-import TopMenu from "@/app/components/topMenu"
+import TopMenu from "@/app/ui/topMenu"
 import { Suspense } from "react"
 
 

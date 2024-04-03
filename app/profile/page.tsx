@@ -1,30 +1,37 @@
-'use client'
 
-import TopMenu from "../components/topMenu";
+import TopMenu from "../ui/topMenu";
 
 import UserInfo from "../ui/profile/userInfo";
-import { fetchUserById } from "../lib/data";
+
 import { Suspense } from "react";
-import Card from "../components/card";
+import Card from "../ui/profile/card";
+
+import { fetchUserById } from "../lib/data";
+import Cookies from 'js-cookie';
+
 
 export default async function Profile() {
     const user = await fetchUserById('410544b2-4001-4271-9855-fec4b6a6442a')
+   // const userCookie = Cookies.get('user');
+    //const user = userCookie ? JSON.parse(userCookie) : null;
 
-    function handleNewDiary() {
-        console.log("novo diário")
-    }
+    
+    //console.log(userCookie)
+
     return <>
-        <Suspense>
+        <Suspense>  
             <TopMenu />
         </Suspense>
+
         <UserInfo user={user} />
-        <div className="mt-20 ml-20 mr-20 flex gap-4 justify-between">
-            <Card title="Viagens" img_url="/assets/travels.png"/>
-            <Card title="Países" img_url="/assets/countries.png"/>
-            <Card title="Cidades" img_url="/assets/cities.png"/>
-        </div>
         
+        <div className="mt-20 ml-20 mr-20 flex gap-4 justify-between">
+            <Card title="Viagens" img_url="/assets/travels.png" />
+            <Card title="Países" img_url="/assets/countries.png" />
+            <Card title="Cidades" img_url="/assets/cities.png" />
+        </div>
+
 
 
     </>
-}   
+}

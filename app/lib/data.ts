@@ -49,6 +49,7 @@ export async function fetchFilteredTravels(
         travels.destinycity,
         travels.destinycountry,
         travels.distanceinmeters,
+        travels.date,
         users.name,
         users.email,
         users.image_url

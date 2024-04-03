@@ -14,16 +14,16 @@ export default function TopMenu() {
             <div className="container mx-auto flex justify-between items-center px-4 py-1">
                 <Search />
                 <ul className="flex space-x-10">
-                    <Link key="travels" href="/profile/travels">
+                    <Link className="font-semibold" key="travels" href="/profile/travels">
                         Viagens
                     </Link>
-                    <Link key="countries" href="/profile/countries">
+                    <Link className="font-semibold" key="countries" href="/profile/countries">
                         Países
                     </Link>
-                    <Link key="cities" href="/profile/cities">
+                    <Link className="font-semibold" key="cities" href="/profile/cities">
                         Cidades
                     </Link>
-                    <Link key="community" href="/profile/community">
+                    <Link className="font-semibold" key="community" href="/profile/community">
                         Comunidade
                     </Link>
 

@@ -1,8 +1,10 @@
 import TopMenu from "@/app/ui/topMenu"
 import { fetchTravelsPages } from '@/app/lib/data';
-import TravelsTable from "@/app/ui/travels/table";
+import TravelsList from "@/app/ui/travels/travelsList";
 import Pagination from "@/app/ui/travels/pagination";
 import { Suspense } from "react";
+import BackLink from "@/app/ui/backlink";
+import TopPage from "@/app/ui/topPage";
 
 export default async function Travels({
     searchParams,
@@ -22,8 +24,9 @@ export default async function Travels({
             <Suspense>
                 <TopMenu />
             </Suspense>
-            Travels
-            <TravelsTable query={query} currentPage={currentPage} />
+            <BackLink />
+            <TopPage title="Minhas viagens" img_url="/assets/travels-sm.png"/>
+            <TravelsList query={query} currentPage={currentPage} />
             <Pagination totalPages={totalPages} />
         </>
     )

@@ -9,7 +9,7 @@ export default function Countries() {
         <Suspense>
             <TopMenu />
         </Suspense>
-        <BackLink />
+        <BackLink backToLink="/profile" backToText="Voltar para Home"/>
         <TopPage title="Países" img_url="/assets/travels-sm.png"/>
     </>
 }

@@ -5,6 +5,7 @@ import Pagination from "@/app/ui/travels/pagination";
 import { Suspense } from "react";
 import BackLink from "@/app/ui/backlink";
 import TopPage from "@/app/ui/topPage";
+import { AddButton } from "@/app/ui/travels/addButton";
 
 export default async function Travels({
     searchParams,
@@ -24,8 +25,11 @@ export default async function Travels({
             <Suspense>
                 <TopMenu />
             </Suspense>
-            <BackLink />
+            <BackLink backToLink="/profile" backToText="Voltar para Home"/>
             <TopPage title="Minhas viagens" img_url="/assets/travels-sm.png"/>
+            <div className="mt-2 flex justify-end">
+                <AddButton sendToLink='/profile/travels/create' buttonText='Adicionar viagem'/>
+            </div>
             <TravelsList query={query} currentPage={currentPage} />
             <Pagination totalPages={totalPages} />
         </>

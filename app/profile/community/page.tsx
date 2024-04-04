@@ -9,7 +9,7 @@ export default function Community() {
         <Suspense>
             <TopMenu />
         </Suspense>
-        <BackLink />
+        <BackLink backToLink="/profile" backToText="Voltar para Home"/>
         <TopPage title="Comunidade" img_url="/assets/travels-sm.png" />
     </>
 }

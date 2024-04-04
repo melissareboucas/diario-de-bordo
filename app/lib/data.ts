@@ -1,35 +1,36 @@
 import { sql } from '@vercel/postgres';
 
 import {
-    User,
-    Travel
+  User,
+  Travel,
+  Post
 } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
 
 //TRAVEL fetchs
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 4;
 export async function fetchTravels() {
-    noStore();
-    try {
-      const travels = await sql`SELECT * from travels`      
-       return travels.rows as Travel[];
-      
-    } catch (error) {
-      console.error('Database Error:', error);
-      throw new Error('Failed to fetch travels.');
-    }
+  noStore();
+  try {
+    const travels = await sql`SELECT * from travels`
+    return travels.rows as Travel[];
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch travels.');
   }
+}
 
 export async function fetchTravelById(id: string) {
-    noStore();
-    try {
-        const travel = await sql`SELECT * FROM travels WHERE id=${id}`;
-        return travel.rows[0] as Travel;
-    } catch (error) {
-        console.error('Failed to fetch travel:', error);
-        throw new Error('Failed to fetch travel.');
-    }
+  noStore();
+  try {
+    const travel = await sql`SELECT * FROM travels WHERE id=${id}`;
+    return travel.rows[0] as Travel;
+  } catch (error) {
+    console.error('Failed to fetch travel:', error);
+    throw new Error('Failed to fetch travel.');
+  }
 }
 
 export async function fetchFilteredTravels(
@@ -50,6 +51,8 @@ export async function fetchFilteredTravels(
         travels.destinycountry,
         travels.distanceinmeters,
         travels.date,
+        travels.travelimage,
+        travels.description,
         users.name,
         users.email,
         users.image_url
@@ -63,7 +66,8 @@ export async function fetchFilteredTravels(
         travels.destinycity::text ILIKE ${`%${query}%`} OR
         travels.destinycountry::text ILIKE ${`%${query}%`} OR
         travels.distanceinmeters::text ILIKE ${`%${query}%`} OR
-        travels.date::text ILIKE ${`%${query}%`}
+        travels.date::text ILIKE ${`%${query}%`} OR
+        travels.description::text ILIKE ${`%${query}%`}
       ORDER BY travels.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -88,7 +92,8 @@ export async function fetchTravelsPages(query: string) {
       travels.destinycity::text ILIKE ${`%${query}%`} OR
       travels.destinycountry::text ILIKE ${`%${query}%`} OR
       travels.distanceinmeters::text ILIKE ${`%${query}%`} OR
-      travels.date::text ILIKE ${`%${query}%`}
+      travels.date::text ILIKE ${`%${query}%`} OR
+      travels.description::text ILIKE ${`%${query}%`}
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
@@ -99,27 +104,63 @@ export async function fetchTravelsPages(query: string) {
   }
 }
 
+//POSTS fetchs
+export async function fetchPosts() {
+  noStore();
+  try {
+    const posts = await sql`SELECT * from posts`
+    return posts.rows as Post[];
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch posts.');
+  }
+
+}
+
+export async function fetchPostById(id: string) {
+  noStore();
+  try {
+    const post = await sql`SELECT * FROM posts WHERE id=${id}`;
+    return post.rows[0] as Post;
+  } catch (error) {
+    console.error('Failed to fetch post:', error);
+    throw new Error('Failed to fetch post.');
+  }
+}
+
+export async function fetchPostsByTravelId(travels_id: string) {
+  noStore();
+  try {
+    const post = await sql`SELECT * FROM posts WHERE travels_id=${travels_id}`;
+    return post.rows;
+  } catch (error) {
+    console.error('Failed to fetch post:', error);
+    throw new Error('Failed to fetch post.');
+  }
+}
+
 //USER fetchs
 export async function fetchUsers() {
   noStore();
   try {
-      const users = await sql`SELECT * FROM users`;
-      return users.rows as User[];
+    const users = await sql`SELECT * FROM users`;
+    return users.rows as User[];
   } catch (error) {
-      console.error('Failed to fetch users:', error);
-      throw new Error('Failed to fetch user.');
+    console.error('Failed to fetch users:', error);
+    throw new Error('Failed to fetch user.');
   }
 }
 
 export async function fetchUserById(id: string) {
-    noStore();
-    try {
-        const user = await sql`SELECT * FROM users WHERE id=${id}`;
-        return user.rows[0] as User;
-    } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
-    }
+  noStore();
+  try {
+    const user = await sql`SELECT * FROM users WHERE id=${id}`;
+    return user.rows[0] as User;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
 }
 
 export async function getUser(id: string): Promise<User | undefined> {
@@ -135,11 +176,11 @@ export async function getUser(id: string): Promise<User | undefined> {
 export async function fetchUserByEmail(email: string) {
   noStore();
   try {
-      const user = await sql`SELECT * FROM users WHERE email=${email}`;
-      return user.rows[0] as User;
+    const user = await sql`SELECT * FROM users WHERE email=${email}`;
+    return user.rows[0] as User;
   } catch (error) {
-      console.error('Failed to fetch user:', error);
-      throw new Error('Failed to fetch user.');
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
   }
 }
 

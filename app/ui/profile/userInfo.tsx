@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import Link from 'next/link';
+import { AddButton } from '../travels/addButton';
 
 
 export default function UserInfo({
@@ -38,10 +39,7 @@ export default function UserInfo({
                     <p className='text-custom-dark-blue text-2xl'>{user.name}</p>
                     
                 </div>
-                <Link key='addTravel' href='/profile/travels/create'>
-                    <button className='mr-16 text-custom-dark-blue border border-md rounded-lg px-4 py-2 border-custom-medium-blue'>Adicionar diário de bordo</button>
-
-                </Link>
+                <AddButton sendToLink='/profile/travels/create' buttonText='Adicionar viagem'/>
                 
             </div>
             

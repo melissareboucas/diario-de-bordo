@@ -1,7 +1,8 @@
 const { db } = require('@vercel/postgres');
 const {
     users,
-    travels
+    travels,
+    posts
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -59,7 +60,9 @@ async function seedTravels(client) {
         destinyCity VARCHAR(255) NOT NULL,
         destinyCountry VARCHAR(255) NOT NULL,
         distanceInMeters INT NOT NULL,
-        date DATE NOT NULL
+        date DATE NOT NULL,
+        travelimage VARCHAR(255),
+        description TEXT NOT NULL
     );
     `;
 
@@ -69,8 +72,8 @@ async function seedTravels(client) {
         const insertedTravels = await Promise.all(
             travels.map(
                 (travel) => client.sql`
-          INSERT INTO travels (user_id, originCity, originCountry, destinyCity, destinyCountry, distanceInMeters, date)
-          VALUES (${travel.user_id}, ${travel.originCity}, ${travel.originCountry}, ${travel.destinyCity}, ${travel.destinyCountry}, ${travel.distanceInMeters}, ${travel.date})
+          INSERT INTO travels (id, user_id, originCity, originCountry, destinyCity, destinyCountry, distanceInMeters, date, travelimage, description)
+          VALUES (${travel.id}, ${travel.user_id}, ${travel.originCity}, ${travel.originCountry}, ${travel.destinyCity}, ${travel.destinyCountry}, ${travel.distanceInMeters}, ${travel.date}, ${travel.travelimage}, ${travel.description})
           ON CONFLICT (id) DO NOTHING;
         `,
             ),
@@ -88,6 +91,46 @@ async function seedTravels(client) {
     }
 }
 
+async function seedPosts(client) {
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+        // Create the "posts" table if it doesn't exist
+        const createTable = await client.sql`
+        CREATE TABLE IF NOT EXISTS posts (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        user_id UUID NOT NULL,
+        travels_id UUID NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        posttext TEXT NOT NULL,
+        postdate DATE NOT NULL
+    );
+    `;
+
+        console.log(`Created "posts" table`);
+
+        // Insert data into the "posts" table
+        const insertedPosts = await Promise.all(
+            posts.map(
+                (post) => client.sql`
+          INSERT INTO posts (user_id, travels_id, title, posttext, postdate)
+          VALUES (${post.user_id}, ${post.travels_id}, ${post.title}, ${post.posttext}, ${post.postdate})
+          ON CONFLICT (id) DO NOTHING;
+        `,
+            ),
+        );
+
+        console.log(`Seeded ${insertedPosts.length} posts`);
+
+        return {
+            createTable,
+            posts: insertedPosts,
+        };
+    } catch (error) {
+        console.error('Error seeding posts:', error);
+        throw error;
+    }
+}
 
 
 async function main() {
@@ -95,6 +138,7 @@ async function main() {
 
     await seedUsers(client);
     await seedTravels(client);
+    await seedPosts(client);
 
     await client.end();
 }

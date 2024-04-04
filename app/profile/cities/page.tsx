@@ -9,7 +9,7 @@ export default function Cities() {
         <Suspense>
             <TopMenu />
         </Suspense>
-        <BackLink />
+        <BackLink backToLink="/profile" backToText="Voltar para Home" />
         <TopPage title="Cidades" img_url="/assets/travels-sm.png" />
     </>
 }

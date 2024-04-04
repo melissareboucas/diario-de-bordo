@@ -1,6 +1,8 @@
 
-import { fetchTravelById} from "@/app/lib/data";
-import EditTravelForm from "@/app/ui/travels/edit-form";
+import { fetchTravelById } from "@/app/lib/data";
+import EditTravelForm from "@/app/ui/travels/editTravelForm";
+import { Suspense } from "react";
+import TopMenu from "@/app/ui/topMenu";
 
 export default async function Edit({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -8,6 +10,11 @@ export default async function Edit({ params }: { params: { id: string } }) {
         fetchTravelById(id)
     ]);
     return (
-        <EditTravelForm travel={travel}/>
+        <>
+            <Suspense>
+                <TopMenu />
+            </Suspense>
+            <EditTravelForm travel={travel} />
+        </>
     );
 }

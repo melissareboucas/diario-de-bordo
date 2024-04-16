@@ -125,7 +125,7 @@ export async function fetchPostById(id: string) {
     return post.rows[0] as Post;
   } catch (error) {
     console.error('Failed to fetch post:', error);
-    throw new Error('Failed to fetch post.');
+    //throw new Error('Failed to fetch post.');
   }
 }
 

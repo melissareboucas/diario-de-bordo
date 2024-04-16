@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { error } from 'console';
 
-import { signIn } from '@/auth';
+//import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
 
@@ -238,6 +238,7 @@ export async function deletePost(id: string, travels_id: string) {
 }
 
 //LOGIN
+/*
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
@@ -256,3 +257,4 @@ export async function authenticate(
     throw error;
   }
 }
+*/

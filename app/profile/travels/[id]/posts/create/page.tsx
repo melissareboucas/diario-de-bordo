@@ -1,6 +1,7 @@
 import { fetchPostsByTravelId, fetchTravelById } from "@/app/lib/data";
 import { Suspense } from "react";
 import TopMenu from "@/app/ui/topMenu";
+import CreatePostForm from "@/app/ui/posts/createPostForm";
 
 
 export default async function CreatePost({ params }: { params: { id: string } }) {
@@ -15,7 +16,7 @@ export default async function CreatePost({ params }: { params: { id: string } })
                 <TopMenu />
             </Suspense>
 
-            Criar post
+            <CreatePostForm travels_id={id}/>
 
         </>
     );

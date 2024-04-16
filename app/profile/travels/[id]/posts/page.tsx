@@ -2,7 +2,7 @@ import { fetchPostsByTravelId, fetchTravelById } from "@/app/lib/data";
 import { Suspense } from "react";
 import TopMenu from "@/app/ui/topMenu";
 import { formatDateToLocal } from "@/app/lib/utils";
-import { DropDownTravelMenu } from "@/app/ui/travels/dropDownTravelMenu";
+import { DropDownPostMenu } from "@/app/ui/posts/dropDownPostMenu";
 import BackLink from "@/app/ui/backlink";
 import { AddButton } from "@/app/ui/travels/addButton";
 
@@ -38,7 +38,7 @@ export default async function Posts({ params }: { params: { id: string } }) {
                         <div>
                             {formatDateToLocal(post.postdate)}
                         </div>
-                        <DropDownTravelMenu id={post.travels_id} />
+                        <DropDownPostMenu id={post.id} travels_id={post.travels_id} />
 
                     </div>
                     <div className='flex gap-2 m-8 items-center'>

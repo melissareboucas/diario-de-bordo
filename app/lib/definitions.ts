@@ -43,3 +43,11 @@ export type User = {
     postdate: string
   };
    
+  export type PostForm = {
+    id: string;
+    user_id: string;
+    travels_id: string;
+    title: string;
+    posttext: string;
+    postdate: string;
+  };

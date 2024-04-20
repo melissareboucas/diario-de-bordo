@@ -23,7 +23,7 @@ export function DropDownPostMenu({ id, travels_id }: { id: string, travels_id: s
             {menuOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
                     <div className="m-8">
-                        <a href={`/profile/travels/${id}/edit`}>
+                        <a href={`/profile/travels/${travels_id}/posts/${id}/edit`}>
                             <div className='flex justify-between items-center'>
                                 <span className='text-custom-medium-blue'>Editar post</span>
                                 <ChevronRightIcon className='size-6 text-custom-medium-blue' />

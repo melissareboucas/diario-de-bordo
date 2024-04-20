@@ -7,10 +7,10 @@ import BackLink from "@/app/ui/backlink";
 import { AddButton } from "@/app/ui/travels/addButton";
 
 export default async function Posts({ params }: { params: { id: string } }) {
-    const id = params.id;
+    const travels_id = params.id;
     const [travel, posts] = await Promise.all([
-        fetchTravelById(id),
-        fetchPostsByTravelId(id)
+        fetchTravelById(travels_id),
+        fetchPostsByTravelId(travels_id)
     ]);
     return (
         <>
@@ -33,7 +33,7 @@ export default async function Posts({ params }: { params: { id: string } }) {
             </div>
 
             {posts?.map((post) => (
-                <div key={post.id} className='shadow-lg mr-64 ml-64 mt-16 max-h-[510px] relative border'>
+                <div key={post.id} className='shadow-lg mr-64 ml-64 mt-16 max-h-[510px] mb-16 relative border'>
                     <div className='flex flex-col justify-end items-end absolute top-0 right-0 text-custom-dark-blue m-4'>
                         <div>
                             {formatDateToLocal(post.postdate)}

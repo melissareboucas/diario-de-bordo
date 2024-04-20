@@ -47,7 +47,7 @@ const PostsFormSchema = z.object({
   postdate: z.string()
 })
 
-const CreatePost = PostsFormSchema.omit({ id: true, postdate: true})
+const CreatePost = PostsFormSchema.omit({ id: true, postdate: true })
 const UpdatePost = PostsFormSchema.omit({ id: true, postdate: true })
 
 export type State = {
@@ -166,45 +166,51 @@ export async function deleteTravel(id: string) {
 export async function createPost(prevState: PostState, formData: FormData) {
   // Validate form using Zod
   const validatedFields = CreatePost.safeParse({
-    //user_id: formData.get('user_id'),
+    user_id: formData.get('user_id'),
     travels_id: formData.get('travels_id'),
     title: formData.get('title'),
     posttext: formData.get('posttext'),
   });
 
+  
+  
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors)
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Post.',
     };
   }
-
   // Prepare data for insertion into the database
-  const {travels_id, title, posttext } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
+  const { travels_id, title, posttext } = validatedFields.data;
+  const postdate = new Date().toISOString().split('T')[0];
 
   // Insert data into the database
   try {
     await sql`
         INSERT INTO posts (user_id, travels_id, title, posttext, postdate)
-        VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${travels_id}, ${title}, ${posttext}, ${date})
+        VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${travels_id}, ${title}, ${posttext}, ${postdate})
       `;
   } catch (error) {
     console.log(error)
     return {
-      message: 'Database Error: Failed to Create Post.',
+      message: 'Database Error: Failed to Create Invoice.',
     };
   }
 
+
   // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath(`/profile/travels/${travels_id}/posts`);
-  redirect(`/profile/travels/${travels_id}/posts`);
+  revalidatePath(`/profile/travels/410544b2-4001-4271-9855-fec4b6a6442b/posts`);
+  redirect(`/profile/travels/410544b2-4001-4271-9855-fec4b6a6442b/posts`);
+
+
 }
 
 export async function updatePost(id: string, formData: FormData) {
-  const { travels_id, title, posttext } = UpdatePost.parse({
+  const { user_id, travels_id, title, posttext } = UpdatePost.parse({
+    user_id: formData.get('user_id'),
     travels_id: formData.get('travels_id'),
     title: formData.get('title'),
     posttext: formData.get('posttext'),

@@ -202,8 +202,8 @@ export async function createPost(prevState: PostState, formData: FormData) {
 
 
   // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath(`/profile/travels/410544b2-4001-4271-9855-fec4b6a6442b/posts`);
-  redirect(`/profile/travels/410544b2-4001-4271-9855-fec4b6a6442b/posts`);
+  revalidatePath(`/profile/travels/${travels_id}/posts`);
+  redirect(`/profile/travels/${travels_id}/posts`);
 
 
 }

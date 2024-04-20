@@ -184,6 +184,45 @@ export async function fetchUserByEmail(email: string) {
   }
 }
 
+//TOTALS fetchs
+export async function fetchTotalKmByUser(id: string) {
+  noStore();
+  try {
+    const sumMeters = await sql`SELECT sum(distanceinmeters) from travels WHERE user_id=${id}`
+    const sumKm = Math.ceil(Number(sumMeters.rows[0].sum) / 1000);
+    return sumKm;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch sum.');
+  }
+}
+
+export async function fetchTotalCountriesByUser(id: string) {
+  noStore();
+  try {
+    const countries = await sql`SELECT count(DISTINCT destinycountry) from travels WHERE user_id=${id}`
+    const countCountries = Math.ceil(Number(countries.rows[0].count));
+    return countCountries;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch sum.');
+  }
+}
+
+export async function fetchTotalCitiesByUser(id: string) {
+  noStore();
+  try {
+    const cities = await sql`SELECT count(DISTINCT destinycity) from travels WHERE user_id=${id}`
+    const countCities = Math.ceil(Number(cities.rows[0].count));
+    return countCities;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch sum.');
+  }
+}
 
 
 

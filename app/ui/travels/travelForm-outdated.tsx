@@ -6,14 +6,14 @@ import { useFormState } from 'react-dom';
 
 export default async function TravelForm() {
     const initialState = { message: '', errors: {} };
-    const [state, dispatch] = useFormState(createTravel, initialState);
+    //const [state, dispatch] = useFormState(createTravel, initialState); --action={dispatch}
     return (
         <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
                 Como foi sua viagem?
             </div>
             <div className="flex justify-between ml-10 mr-16">
-                <form action={dispatch} className="w-2/3">
+                <form className="w-2/3">
                     <div className="mr-64">
                         {/*User Id, informação escondida que tem que ser enviada*/}
                         <input

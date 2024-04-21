@@ -3,6 +3,7 @@ import { fetchTravelById } from "@/app/lib/data";
 import EditTravelForm from "@/app/ui/travels/editTravelForm";
 import { Suspense } from "react";
 import TopMenu from "@/app/ui/topMenu";
+import EditTravelFormv2 from "@/app/ui/travels/editTravelFormv2";
 
 export default async function Edit({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -14,7 +15,7 @@ export default async function Edit({ params }: { params: { id: string } }) {
             <Suspense>
                 <TopMenu />
             </Suspense>
-            <EditTravelForm travel={travel} />
+            <EditTravelFormv2 travel={travel} />
         </>
     );
 }

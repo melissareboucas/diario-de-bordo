@@ -7,6 +7,7 @@ import {
 } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
+import { constrainedMemory } from 'process';
 
 //TRAVEL fetchs
 const ITEMS_PER_PAGE = 4;
@@ -225,6 +226,33 @@ export async function fetchTotalCitiesByUser(id: string) {
 }
 
 
+export function calculateDistance(
+  originLat: number,
+  originLng: number,
+  destinyLat: number,
+  destinyLng: number
+): number {
+  // Raio médio da Terra em quilômetros
+  const earthRadiusKm: number = 6371;
+
+  // Conversão de graus para radianos
+  function toRadians(degrees: number): number {
+      return degrees * Math.PI / 180;
+  }
+
+  // Diferença de latitude e longitude
+  const deltaLat: number = toRadians(destinyLat - originLat);
+  const deltaLng: number = toRadians(destinyLng - originLng);
+
+  // Cálculo da distância entre os pontos usando a fórmula de Haversine
+  const a: number = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                    Math.cos(toRadians(originLat)) * Math.cos(toRadians(destinyLat)) *
+                    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+  const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance: number = earthRadiusKm * c;
+
+  return distance;
+}
 
 
 

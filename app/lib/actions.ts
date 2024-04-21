@@ -75,6 +75,7 @@ export type PostState = {
 }
 
 //TRAVELS CRUD
+/* outdated - this function uses form
 export async function createTravel(prevState: State, formData: FormData) {
   // Validate form using Zod
   const validatedFields = CreateTravel.safeParse({
@@ -119,8 +120,10 @@ export async function createTravel(prevState: State, formData: FormData) {
   redirect('/profile/travels');
 
 }
+*/
 
-export async function createTravelV2(origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
+//updated - this function uses the fields directly
+export async function createTravel(origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
   const date = new Date().toISOString().split('T')[0];
 
     // Insert data into the database
@@ -139,6 +142,25 @@ export async function createTravelV2(origincity: string, origincountry: string, 
     // Revalidate the cache for the invoices page and redirect the user.
     revalidatePath('/profile/travels');
     redirect('/profile/travels');
+}
+
+export async function updateTravel2(id: string, origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
+
+  try {
+    await sql`
+        UPDATE travels
+        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', origincity = ${origincity}, origincountry = ${origincountry}, destinycity = ${destinycity}, 
+        destinycountry = ${destinycountry}, distanceinmeters = ${distanceinmeters}, travelimage = '/assets/sp.png', description = ${description}
+        WHERE id = ${id}
+      `;
+  } catch (error) {
+    console.log(error)
+    return { message: 'Database Error: Failed to Update Travel.' };
+  }
+
+  revalidatePath('/profile/travels');
+  redirect('/profile/travels');
+
 }
 
 export async function updateTravel(id: string, formData: FormData) {

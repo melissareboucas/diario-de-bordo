@@ -1,6 +1,6 @@
 import TopMenu from "@/app/ui/topMenu";
 import { Suspense } from "react";
-import TravelForm from "@/app/ui/travels/travelForm";
+import CreateTravelForm from "@/app/ui/travels/createTravelForm";
 
 export default async function Create() {
     return (
@@ -8,7 +8,7 @@ export default async function Create() {
             <Suspense>
                 <TopMenu />
             </Suspense>
-            <TravelForm />
+            <CreateTravelForm />
         </main>
     );
 }

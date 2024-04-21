@@ -23,7 +23,7 @@ interface CityAndCountry {
 }
 
 interface SearchAutocompleteProps {
-    onSelect: (city: string, country: string) => void;
+    onSelect: (city: string, country: string, lat: number, lng: number) => void;
     placeHolderText: string
 }
 
@@ -74,11 +74,13 @@ function getCityAndCountry(latitude: number, longitude: number): Promise<CityAnd
 export default function SearchAutocomplete({ onSelect, placeHolderText }: SearchAutocompleteProps) {
     const [city, setCity] = useState('')
     const [country, setCountry] = useState('')
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     
     useEffect(() => {
-        onSelect(city, country)
-    }, [city, country])
+        onSelect(city, country, latitude, longitude)
+    }, [city, country, latitude, longitude])
 
     const {
         ready,
@@ -109,10 +111,16 @@ export default function SearchAutocomplete({ onSelect, placeHolderText }: Search
                 // Get latitude and longitude via utility functions
                 getGeocode({ address: description })
                     .then(results => getLatLng(results[0]))
-                    .then(({ lat, lng }) => getCityAndCountry(lat, lng))
+                    .then(({ lat, lng }) => {
+                        // Set latitude and longitude
+                        setLatitude(lat);
+                        setLongitude(lng);
+                        // Get city and country using the obtained latitude and longitude
+                        return getCityAndCountry(lat, lng);
+                    })
                     .then(cityAndCountry => {
                         if (cityAndCountry) {
-                            const { city, country } = cityAndCountry;                          
+                            const { city, country } = cityAndCountry;        
                             setCity(city);
                             setCountry(country);
                         } else {
@@ -142,7 +150,7 @@ export default function SearchAutocomplete({ onSelect, placeHolderText }: Search
         });
 
     return (
-        <div ref={ref}>
+        <div ref={ref} className="w-full">
             <input
                 value={value}
                 onChange={handleInput}

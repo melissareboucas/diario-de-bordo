@@ -120,6 +120,27 @@ export async function createTravel(prevState: State, formData: FormData) {
 
 }
 
+export async function createTravelV2(origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
+  const date = new Date().toISOString().split('T')[0];
+
+    // Insert data into the database
+    try {
+      await sql`
+          INSERT INTO travels (user_id, origincity, origincountry, destinycity, destinycountry, distanceinmeters, date, travelimage, description)
+          VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${origincity}, ${origincountry}, ${destinycity}, ${destinycountry}, ${distanceinmeters}, ${date}, '/assets/sp.png', ${description})
+        `;
+    } catch (error) {
+      console.log(error)
+      return {
+        message: 'Database Error: Failed to Create Invoice.',
+      };
+    }
+  
+    // Revalidate the cache for the invoices page and redirect the user.
+    revalidatePath('/profile/travels');
+    redirect('/profile/travels');
+}
+
 export async function updateTravel(id: string, formData: FormData) {
   console.log(formData)
 

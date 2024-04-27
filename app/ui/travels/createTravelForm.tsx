@@ -4,29 +4,34 @@ import SearchAutocomplete from "@/app/ui/autocomplete/searchAutocomplete"
 import { createTravel } from '@/app/lib/actions';
 import { useState, useEffect } from "react";
 import { calculateDistance } from "@/app/lib/data";
+import UploadImage from "../uploadImage";
 
 
 export default function CreateTravelForm() {
     const [origincity, setOrigincity] = useState('')
     const [origincountry, setOrigincountry] = useState('')
+    const [originlatitude, setOriginlatitude] = useState(0)
+    const [originlongitude, setOriginlongitude] = useState(0)
     const [destinycity, setDestinycity] = useState('')
     const [destinycountry, setDestinycountry] = useState('')
     const [distanceinmeters, setDistanceinmeters] = useState(0)
+    const [destinylatitude, setDestinylatitude] = useState(0)
+    const [destinylongitude, setDestinylongitude] = useState(0)
     const [description, setDescription] = useState('')
-    const [originlat, setOriginlat] = useState(0)
-    const [originlng, setOriginlng] = useState(0)
-    const [destinylat, setDestinylat] = useState(0)
-    const [destinylng, setDestinylng] = useState(0)
+    const [modal, setModal] = useState('')
+    const [travelimage, setTravelImage] = useState('')
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        createTravel(origincity, origincountry, destinycity, destinycountry, distanceinmeters, description);
+        createTravel(origincity, origincountry, originlatitude, originlongitude,
+            destinycity, destinycountry, destinylatitude, destinylongitude,
+            distanceinmeters, modal, travelimage, description);
 
     };
 
     useEffect(() => {
-        const distanceInKm = calculateDistance(originlat, originlng, destinylat, destinylng)
+        const distanceInKm = calculateDistance(originlatitude, originlongitude, destinylatitude, destinylongitude)
 
         const distanceInMetersInteger = Math.round(distanceInKm * 1000)
 
@@ -37,19 +42,28 @@ export default function CreateTravelForm() {
     const handleSelectOrigin = (city: string, country: string, lat: number, lng: number) => {
         setOrigincity(city);
         setOrigincountry(country);
-        setOriginlat(lat);
-        setOriginlng(lng)
+        setOriginlatitude(lat);
+        setOriginlongitude(lng)
     };
 
     const handleSelectDestiny = (city: string, country: string, lat: number, lng: number) => {
         setDestinycity(city);
         setDestinycountry(country);
-        setDestinylat(lat);
-        setDestinylng(lng)
+        setDestinylatitude(lat);
+        setDestinylongitude(lng)
     };
 
     const handleChangeDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
+    };
+
+    const handleChangeModal = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setModal(event.target.value);
+    };
+
+    const handleImageChange = (image: string) => {
+        // Atualiza o estado da imagem quando uma nova imagem é selecionada
+        setTravelImage(image)
     };
 
     return (
@@ -72,18 +86,6 @@ export default function CreateTravelForm() {
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
 
-                        {/*ImageUrl, informação mocada que tem que ser enviada*/}
-                        <input
-                            id="travelimage"
-                            name="travelimage"
-
-                            placeholder="travelimage"
-                            type="hidden"
-                            readOnly
-                            value={"/assets/sp.png"}
-                            className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                        />
-
                         {/* Location */}
                         <div className="flex  gap-4 mt-8 justify-between">
                             <SearchAutocomplete onSelect={handleSelectOrigin} placeHolderText="Cidade de origem da viagem" />
@@ -101,6 +103,20 @@ export default function CreateTravelForm() {
                             />
                         </div>
 
+                        {/* Modal */}
+                        <div className="mt-8">
+                            <textarea
+                                id="modal"
+                                name="modal"
+                                placeholder="Modal"
+                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
+                                onChange={handleChangeModal}
+                            />
+                        </div>
+
+                        <UploadImage onImageChange={handleImageChange}
+                        />
+
 
                         <div className="mt-6 flex justify-start gap-4">
                             <a
@@ -113,7 +129,7 @@ export default function CreateTravelForm() {
                         </div>
                     </div>
                 </form>
-                <img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>
+                {/*<img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>*/}
             </div>
 
         </div>

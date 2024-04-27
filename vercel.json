@@ -1,0 +1,8 @@
+{
+    "functions": {
+      "payload": {
+        "maxSize": "5mb" 
+      }
+    }
+  }
+  

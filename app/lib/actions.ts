@@ -123,14 +123,21 @@ export async function createTravel(prevState: State, formData: FormData) {
 */
 
 //updated - this function uses the fields directly
-export async function createTravel(origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
+export async function createTravel(origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
+  destinycity: string, destinycountry: string, destinylatitude: number, destinylongitude: number,
+  distanceinmeters: number, modal: string, travelimage: string, description: string) {
+    
   const date = new Date().toISOString().split('T')[0];
 
     // Insert data into the database
     try {
       await sql`
-          INSERT INTO travels (user_id, origincity, origincountry, destinycity, destinycountry, distanceinmeters, date, travelimage, description)
-          VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${origincity}, ${origincountry}, ${destinycity}, ${destinycountry}, ${distanceinmeters}, ${date}, '/assets/sp.png', ${description})
+          INSERT INTO travels (user_id, origincity, origincountry, originlatitude, originlongitude,
+            destinycity, destinycountry, destinylatitude, destinylongitude,
+            distanceinmeters, modal, date, travelimage, description)
+          VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${origincity}, ${origincountry}, ${originlatitude}, ${originlongitude},
+          ${destinycity}, ${destinycountry}, ${destinylatitude}, ${destinylongitude},
+          ${distanceinmeters}, ${modal}, ${date}, ${travelimage}, ${description})
         `;
     } catch (error) {
       console.log(error)

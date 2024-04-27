@@ -57,33 +57,43 @@ async function seedTravels(client) {
         user_id UUID NOT NULL,
         originCity VARCHAR(255) NOT NULL,
         originCountry VARCHAR(255) NOT NULL,
+        originLatitude INT NOT NULL,
+        originLongitude INT NOT NULL,
         destinyCity VARCHAR(255) NOT NULL,
         destinyCountry VARCHAR(255) NOT NULL,
+        destinyLatitude INT NOT NULL,
+        destinyLongitude INT NOT NULL,
         distanceInMeters INT NOT NULL,
+        modal VARCHAR(255) NOT NULL,
         date DATE NOT NULL,
-        travelimage VARCHAR(255),
+        travelimage TEXT,
         description TEXT NOT NULL
     );
     `;
 
         console.log(`Created "travels" table`);
-
+        /*
         // Insert data into the "travels" table
         const insertedTravels = await Promise.all(
             travels.map(
                 (travel) => client.sql`
-          INSERT INTO travels (id, user_id, originCity, originCountry, destinyCity, destinyCountry, distanceInMeters, date, travelimage, description)
-          VALUES (${travel.id}, ${travel.user_id}, ${travel.originCity}, ${travel.originCountry}, ${travel.destinyCity}, ${travel.destinyCountry}, ${travel.distanceInMeters}, ${travel.date}, ${travel.travelimage}, ${travel.description})
+          INSERT INTO travels (id, user_id, originCity, originCountry, originLatitude, originLongitude, 
+            destinyCity, destinyCountry, destinyLatitude, destinyLongitude,
+            distanceInMeters, modal, date, travelimage, description)
+          VALUES (${travel.id}, ${travel.user_id}, 
+            ${travel.originCity}, ${travel.originCountry}, ${travel.originLatitude}, ${travel.originLongitude},
+            ${travel.destinyCity}, ${travel.destinyCountry}, ${travel.destinyLatitude}, ${travel.destinyLongitude},
+            ${travel.distanceInMeters}, ${travel.modal}, ${travel.date}, ${travel.travelimage}, ${travel.description})
           ON CONFLICT (id) DO NOTHING;
         `,
             ),
         );
 
         console.log(`Seeded ${insertedTravels.length} travels`);
-
+        */
         return {
             createTable,
-            invoices: insertedTravels,
+           // invoices: insertedTravels,
         };
     } catch (error) {
         console.error('Error seeding invoices:', error);
@@ -109,6 +119,7 @@ async function seedPosts(client) {
 
         console.log(`Created "posts" table`);
 
+        /* 
         // Insert data into the "posts" table
         const insertedPosts = await Promise.all(
             posts.map(
@@ -121,10 +132,10 @@ async function seedPosts(client) {
         );
 
         console.log(`Seeded ${insertedPosts.length} posts`);
-
+        */
         return {
             createTable,
-            posts: insertedPosts,
+            //posts: insertedPosts,
         };
     } catch (error) {
         console.error('Error seeding posts:', error);

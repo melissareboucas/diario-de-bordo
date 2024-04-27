@@ -1,7 +1,7 @@
 {
     "functions": {
       "payload": {
-        "maxSize": "5mb" 
+        "maxLambdaPayloadSize": "5mb" 
       }
     }
   }

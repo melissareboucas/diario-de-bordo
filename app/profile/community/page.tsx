@@ -7,7 +7,7 @@ import TopPage from "@/app/ui/topPage"
 export default function Community() {
     return <>
         <Suspense>
-            <TopMenu />
+            <TopMenu enableSearch={false}/>
         </Suspense>
         <BackLink backToLink="/profile" backToText="Voltar para Home"/>
         <TopPage title="Comunidade" img_url="/assets/travels-sm.png" />

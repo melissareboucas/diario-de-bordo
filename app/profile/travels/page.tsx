@@ -23,7 +23,7 @@ export default async function Travels({
     return (
         <>
             <Suspense>
-                <TopMenu />
+                <TopMenu enableSearch={true}/>
             </Suspense>
             <BackLink backToLink="/profile" backToText="Voltar para Home"/>
             <TopPage title="Minhas viagens" img_url="/assets/travels-sm.png"/>

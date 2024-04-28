@@ -45,22 +45,20 @@ export default async function CreatePostForm({ travels_id }: { travels_id: strin
                                 id="title"
                                 name="title"
                                 type="string"
-                                placeholder="title"
+                                placeholder="Título"
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
                             />
                         </div>
 
                         {/* posttext */}
                         <div className="flex gap-4 mt-8">
-                            <input
+                            <textarea
                                 id="posttext"
                                 name="posttext"
-                                type="string"
-                                placeholder="posttext"
-                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
+                                placeholder="Conta aí como foi seu dia..."
+                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                             />
                         </div>
-
 
 
                         <div className="mt-6 flex justify-start gap-4">

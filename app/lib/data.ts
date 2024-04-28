@@ -52,6 +52,7 @@ export async function fetchFilteredTravels(
         travels.destinycountry,
         travels.distanceinmeters,
         travels.date,
+        travels.modal,
         travels.travelimage,
         travels.description,
         users.name,
@@ -68,6 +69,7 @@ export async function fetchFilteredTravels(
         travels.destinycountry::text ILIKE ${`%${query}%`} OR
         travels.distanceinmeters::text ILIKE ${`%${query}%`} OR
         travels.date::text ILIKE ${`%${query}%`} OR
+        travels.modal::text ILIKE ${`%${query}%`} OR
         travels.description::text ILIKE ${`%${query}%`}
       ORDER BY travels.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
@@ -191,11 +193,24 @@ export async function fetchTotalKmByUser(id: string) {
   try {
     const sumMeters = await sql`SELECT sum(distanceinmeters) from travels WHERE user_id=${id}`
     const sumKm = Math.ceil(Number(sumMeters.rows[0].sum) / 1000);
-    return sumKm;
+    const formattedValue = formatNumber(sumKm);
+    return formattedValue;
 
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch sum.');
+  }
+}
+
+function formatNumber(num: number): string {
+  const million = 1000000;
+  const thousand = 1000;
+  if (num >= million) {
+    return (num / million).toFixed(1) + 'M';
+  } else if (num >= thousand) {
+    return (num / thousand).toFixed(1) + 'K';
+  } else {
+    return num.toString();
   }
 }
 
@@ -204,7 +219,7 @@ export async function fetchTotalCountriesByUser(id: string) {
   try {
     const countries = await sql`SELECT count(DISTINCT destinycountry) from travels WHERE user_id=${id}`
     const countCountries = Math.ceil(Number(countries.rows[0].count));
-    return countCountries;
+    return countCountries.toString();
 
   } catch (error) {
     console.error('Database Error:', error);
@@ -217,7 +232,7 @@ export async function fetchTotalCitiesByUser(id: string) {
   try {
     const cities = await sql`SELECT count(DISTINCT destinycity) from travels WHERE user_id=${id}`
     const countCities = Math.ceil(Number(cities.rows[0].count));
-    return countCities;
+    return countCities.toString();
 
   } catch (error) {
     console.error('Database Error:', error);
@@ -254,8 +269,32 @@ export function calculateDistance(
   return distance;
 }
 
+export async function fetchMostPopularOriginCoordenates(id: string) {
+  noStore();
+  try {
+    const origin = await sql`SELECT origincity, COUNT(origincity) AS contagem, originlatitude, originlongitude FROM travels WHERE user_id=${id} 
+    GROUP BY origincity, originlatitude, originlongitude
+    ORDER BY contagem DESC
+    LIMIT 1;`
+    return origin.rows;
 
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch sum.');
+  }
+}
 
+export async function fetchAllPathsCoordenates(id: string) {
+  noStore();
+  try {
+    const paths = await sql`SELECT originlatitude, originlongitude, destinylatitude, destinylongitude, modal FROM travels WHERE user_id=${id} `
+    return paths.rows;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch sum.');
+  }
+}
 
 
 

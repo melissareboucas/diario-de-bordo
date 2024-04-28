@@ -6,7 +6,7 @@ export default async function Create() {
     return (
         <main>
             <Suspense>
-                <TopMenu />
+                <TopMenu enableSearch={false}/>
             </Suspense>
             <CreateTravelForm />
         </main>

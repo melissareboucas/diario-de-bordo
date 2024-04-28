@@ -126,9 +126,10 @@ export async function createTravel(prevState: State, formData: FormData) {
 export async function createTravel(origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
   destinycity: string, destinycountry: string, destinylatitude: number, destinylongitude: number,
   distanceinmeters: number, modal: string, travelimage: string, description: string) {
-    
-  const date = new Date().toISOString().split('T')[0];
 
+  //const date = new Date().toISOString().split('T')[0];
+  const date = new Date().toISOString()
+  console.log(date)
     // Insert data into the database
     try {
       await sql`
@@ -151,13 +152,17 @@ export async function createTravel(origincity: string, origincountry: string, or
     redirect('/profile/travels');
 }
 
-export async function updateTravel2(id: string, origincity: string, origincountry: string, destinycity: string, destinycountry: string, distanceinmeters: number, description: string) {
+export async function updateTravel2(id: string, origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
+  destinycity: string, destinycountry: string, destinylatitude: number, destinylongitude: number,
+  distanceinmeters: number, modal: string, travelimage: string, description: string) {
 
   try {
     await sql`
         UPDATE travels
-        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', origincity = ${origincity}, origincountry = ${origincountry}, destinycity = ${destinycity}, 
-        destinycountry = ${destinycountry}, distanceinmeters = ${distanceinmeters}, travelimage = '/assets/sp.png', description = ${description}
+        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', 
+        origincity = ${origincity}, origincountry = ${origincountry}, originlatitude = ${originlatitude}, originlongitude = ${originlongitude},
+        destinycity = ${destinycity}, destinycountry = ${destinycountry}, destinylatitude = ${destinylatitude}, destinylongitude = ${destinylongitude},
+        distanceinmeters = ${distanceinmeters}, modal = ${modal}, travelimage = ${travelimage}, description = ${description}
         WHERE id = ${id}
       `;
   } catch (error) {
@@ -169,6 +174,7 @@ export async function updateTravel2(id: string, origincity: string, origincountr
   redirect('/profile/travels');
 
 }
+
 
 export async function updateTravel(id: string, formData: FormData) {
   console.log(formData)

@@ -20,6 +20,7 @@ export default function CreateTravelForm() {
     const [description, setDescription] = useState('')
     const [modal, setModal] = useState('')
     const [travelimage, setTravelImage] = useState('')
+    
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -37,7 +38,7 @@ export default function CreateTravelForm() {
 
         setDistanceinmeters(distanceInMetersInteger);
 
-    }, [description]);
+    }, [originlatitude, originlongitude, destinylatitude, destinylongitude]);
 
     const handleSelectOrigin = (city: string, country: string, lat: number, lng: number) => {
         setOrigincity(city);
@@ -57,7 +58,7 @@ export default function CreateTravelForm() {
         setDescription(event.target.value);
     };
 
-    const handleChangeModal = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChangeModal: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setModal(event.target.value);
     };
 
@@ -71,9 +72,10 @@ export default function CreateTravelForm() {
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
                 Como foi sua viagem?
             </div>
-            <div className="flex justify-between ml-10 mr-16">
-                <form onSubmit={handleSubmit} className="w-2/3">
-                    <div className="mr-64">
+
+            <form onSubmit={handleSubmit} >
+                <div className="flex justify-between ml-10 mr-16">
+                    <div className="flex-grow mr-8">
                         {/*User Id, informação escondida que tem que ser enviada*/}
                         <input
                             id="user_id"
@@ -92,30 +94,40 @@ export default function CreateTravelForm() {
                             <SearchAutocomplete onSelect={handleSelectDestiny} placeHolderText="Cidade de destino da viagem" />
                         </div>
 
+                        {/* Modal */}
+                        <div className="mt-8">
+                            <select
+                                id="modal"
+                                name="modal"
+                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
+                                onChange={(e) => setModal(e.target.value)}
+                                value={modal}
+                            >
+                                <option value="" disabled hidden>Selecione uma modalidade</option>
+                                <option value="Avião">Avião</option>
+                                <option value="Navio">Navio</option>
+                                <option value="Trem">Trem</option>
+                                <option value="Ônibus">Ônibus</option>
+                                <option value="Carro">Carro</option>
+                                <option value="Moto">Moto</option>
+                                <option value="Bicicleta">Bicicleta</option>
+                                <option value="Caminhando">Caminhando</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+
+
                         {/* Descrição */}
                         <div className="mt-8">
                             <textarea
                                 id="description"
                                 name="description"
                                 placeholder="Descrição"
-                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
+                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={handleChangeDescription}
                             />
                         </div>
 
-                        {/* Modal */}
-                        <div className="mt-8">
-                            <textarea
-                                id="modal"
-                                name="modal"
-                                placeholder="Modal"
-                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
-                                onChange={handleChangeModal}
-                            />
-                        </div>
-
-                        <UploadImage onImageChange={handleImageChange}
-                        />
 
 
                         <div className="mt-6 flex justify-start gap-4">
@@ -128,10 +140,12 @@ export default function CreateTravelForm() {
                             <button type="submit" className="flex h-10 items-center rounded-lg bg-custom-medium-blue px-4 text-sm font-medium text-white transition-colors hover:bg-custom-light-blue focus:outline-custom-medium-blue">Adicionar</button>
                         </div>
                     </div>
-                </form>
-                {/*<img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>*/}
-            </div>
-
+                    <UploadImage onImageChange={handleImageChange} placeholderImage="/assets/addImage.png" />
+                </div>
+            </form>
+            {/*<img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>*/}
         </div>
+
+
     );
 }

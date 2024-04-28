@@ -9,7 +9,7 @@ import { useState } from 'react';
 interface CardProps {
     title: string;
     img_url: string
-    total: number
+    total: string
     text: string
 }
 

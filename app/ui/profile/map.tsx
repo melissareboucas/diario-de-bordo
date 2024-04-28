@@ -3,10 +3,43 @@
 import { useEffect, useState } from "react"
 import React from "react"
 import { Loader } from "@googlemaps/js-api-loader";
+import { 
+    Paths, 
+    MostPopularOrigin, 
+    FlightIcon, 
+    ShipIcon, 
+    TrainIcon, 
+    BusIcon, 
+    CarIcon, 
+    MotorcycleIcon,
+    BikeIcon,
+    WalkingIcon,
+    OtherIcon } from '../../lib/definitions'
 
-export default function Map() {
+interface MapProps {
+    origin: MostPopularOrigin;
+    paths: Paths[];
+}
+
+const modalIconMap = {
+    "Avião": FlightIcon,
+    "Navio": ShipIcon,
+    "Trem": TrainIcon,
+    "Ônibus": BusIcon,
+    "Carro": CarIcon,
+    "Moto": MotorcycleIcon,
+    "Bicicleta": BikeIcon,
+    "Caminhando": WalkingIcon,
+    "Outro": OtherIcon
+}
+
+type TravelModal = keyof typeof modalIconMap;
+
+
+export default function Map({ origin, paths }: MapProps) {
 
     const mapRef = React.useRef<HTMLDivElement>(null);
+
 
     useEffect(() => {
 
@@ -19,40 +52,30 @@ export default function Map() {
             const { Map } = await loader.importLibrary('maps')
 
             const position = {
-                lat: 43.642693,
-                lng: -79.3871189
+                lat: parseFloat((origin.originlatitude)),
+                lng: parseFloat((origin.originlongitude))
             }
 
             const mapOptions: google.maps.MapOptions = {
                 center: position,
-                zoom: 5,
-                mapId: 'user-map'
+                zoom: 10,
+                mapId: 'user-map',
+                minZoom: 2
             }
 
             const map = new Map(mapRef.current as HTMLDivElement, mapOptions)
 
-            const origin = { lat: 43.642693, lng: -79.3871189 };
-
-            const destinations = [
-                { lat: 41.8781, lng: -87.6298 }, // Chicago
-                { lat: 40.7128, lng: -74.0060 }, // Nova York
-                { lat: -3.7172, lng: -38.5431 }   // Fortaleza, Brasil
-            ];
 
             // Itera sobre cada destino
-            destinations.forEach(destination => {
+            paths.forEach(pathElement => {
                 // Cria uma linha pontilhada para cada destino
                 const path = new google.maps.Polyline({
-                    path: [origin, destination], // Define o caminho como uma lista contendo a origem e o destino
+                    path: [{ lat: parseFloat(pathElement.originlatitude), lng: parseFloat(pathElement.originlongitude) },
+                    { lat: parseFloat((pathElement.destinylatitude)), lng: parseFloat((pathElement.destinylongitude)) }], // Define o caminho como uma lista contendo a origem e o destino
                     geodesic: true,
-                    strokeOpacity: 0, // Defina a opacidade da linha como 0 para torná-la invisível
-                    // Defina o padrão de traço
+                    strokeOpacity: 0, 
                     icons: [{
-                        icon: {
-                            path: 'M 0,-1 0,1',
-                            strokeOpacity: 1,
-                            scale: 4
-                        },
+                        icon: modalIconMap[pathElement.modal as  keyof typeof modalIconMap],
                         offset: '0',
                         repeat: '20px'  // Ajuste o espaçamento para controlar a frequência das marcações
                     }]

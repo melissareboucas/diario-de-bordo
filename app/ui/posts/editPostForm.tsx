@@ -37,16 +37,13 @@ export default function EditPostForm({
 
                         {/* posttext */}
                         <div className="flex gap-4 mt-8">
-                            <input
+                            <textarea
                                 id="posttext"
                                 name="posttext"
-                                type="string"
                                 defaultValue={post.posttext}
-                                placeholder="posttext"
-                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
+                                className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                             />
                         </div>
-
 
                         <div className="mt-6 flex justify-start gap-4">
                             <a

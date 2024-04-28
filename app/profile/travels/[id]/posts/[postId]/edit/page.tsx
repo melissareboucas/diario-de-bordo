@@ -12,7 +12,7 @@ export default async function EditPost({ params }: { params: { postId: string } 
     return (
         <>
             <Suspense>
-                <TopMenu />
+                <TopMenu enableSearch={false}/>
             </Suspense>
             <div>
                 {post && ( // Only render if 'post' is defined

@@ -15,7 +15,7 @@ export default async function Posts({ params }: { params: { id: string } }) {
     return (
         <>
             <Suspense>
-                <TopMenu />
+                <TopMenu enableSearch={false}/>
             </Suspense>
 
             <BackLink backToLink="/profile/travels" backToText="Voltar para Viagens"/>
@@ -31,6 +31,12 @@ export default async function Posts({ params }: { params: { id: string } }) {
             <div className="mt-2 flex justify-end">
                 <AddButton sendToLink={`/profile/travels/${travel.id}/posts/create`} buttonText='Adicionar diário de bordo'/>
             </div>
+
+            {posts.length === 0 && (
+                <div className="flex justify-center mt-10">
+                    <a className="text-custom-dark-blue text-lg" href={`/profile/travels/${travels_id}/posts/create`}>Crie a primeira postagem!</a>
+                </div>
+            )}
 
             {posts?.map((post) => (
                 <div key={post.id} className='shadow-lg mr-64 ml-64 mt-16 max-h-[510px] mb-16 relative border'>

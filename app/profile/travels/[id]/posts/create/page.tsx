@@ -12,7 +12,7 @@ export default async function CreatePost({ params }: { params: { id: string } })
     return (
         <>
             <Suspense>
-                <TopMenu />
+                <TopMenu enableSearch={false}/>
             </Suspense>
 
             <CreatePostForm travels_id={travel.id}/>

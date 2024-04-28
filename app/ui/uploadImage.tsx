@@ -3,9 +3,10 @@ import { useDropzone } from 'react-dropzone';
 
 interface UploadImageProps {
     onImageChange: (base64String: string) => void;
+    placeholderImage?: string; 
   }
 
-export default function UploadImage({ onImageChange }: UploadImageProps) {
+export default function UploadImage({ onImageChange, placeholderImage }: UploadImageProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -25,16 +26,20 @@ export default function UploadImage({ onImageChange }: UploadImageProps) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-   <div {...getRootProps()} style={{ border: '1px dashed black', padding: '20px', textAlign: 'center' }}>
-    <input {...getInputProps()} />
-    {
-      image ? (
-        <img src={image} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '200px' }} />
-      ) : (
-        <p>Arraste e solte uma imagem aqui, ou clique para selecionar uma imagem.</p>
-      )
-    }
-  </div>
+    <div {...getRootProps()} style={{ width: '400px', height: '450px' }}>
+      <input {...getInputProps()} />
+      {
+        image ? (
+          <img src={image} alt="Uploaded"  />
+        ) : (
+          placeholderImage ? (
+            <img src={placeholderImage} alt="Placeholder"  />
+          ) : (
+            <p>Arraste e solte uma imagem aqui, ou clique para selecionar uma imagem.</p>
+          )
+        )
+      }
+    </div>
   );
 }
 

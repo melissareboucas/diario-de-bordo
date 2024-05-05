@@ -50,12 +50,12 @@ O sistema contém as seguintes funcionalidades:
   * #N004-F001. Entrar com email e senha
   * #N004-F001. Criar nova conta
   * #N004-F001. Sair da conta
-* #N005. Conexões   //Trabalhos Futuros
+* #N005. Conexões   ```Trabalhos Futuros```
   * #N005-F001. Enviar convite de conexão
   * #N005-F002. Aceitar convite de conexão
   * #N005-F003. Excluir conexão existente
   * #N005-F004. Listar conexões
-* #N006. Interações na rede   //Trabalhos Futuros
+* #N006. Interações na rede   ```Trabalhos Futuros```
   * #N006-F001. Visualizar perfil de conexões e suas postagens
   * #N006-F002. Comentar em postagem
   * #N006-F003. Editar comentário em postagem

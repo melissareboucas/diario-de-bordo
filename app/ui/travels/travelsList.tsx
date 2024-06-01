@@ -7,11 +7,13 @@ import { DropDownTravelMenu } from './dropDownTravelMenu';
 export default async function TravelsList({
     query,
     currentPage,
+    sub
 }: {
     query: string;
     currentPage: number;
+    sub: string
 }) {
-    const travels = await fetchFilteredTravels(query, currentPage);
+    const travels = await fetchFilteredTravels(query, currentPage, sub);
 
     const travelsMap = {
         "Avião": "travel",
@@ -45,10 +47,12 @@ export default async function TravelsList({
                     </div>
                     <div className='flex gap-2 m-8 items-center'>
                         <MapPinIcon className='size-6' />
-                        <h1 className='font-semibold text-custom-dark-blue text-2xl'>{travel.destinycity}, {travel.destinycountry}</h1>
-                        <span className='material-symbols-outlined text-custom-dark-blue'>{travelsMap[travel.modal as TravelModal]}</span>
+                        <h1 className='font-semibold text-custom-dark-blue text-2xl'>{travel.origincity}, {travel.origincountry} -- <span className='material-symbols-outlined text-custom-dark-blue'>{travelsMap[travel.modal as TravelModal]}</span>
+                             -- {travel.destinycity}, {travel.destinycountry}
+                        </h1>
+                        
                     </div>
-                    <div className='ml-8 mr-8 mb-2'>
+                    <div className='ml-8 mr-8 mb-2 max-h-[100px] overflow-y-auto'>
                         <p className='text-custom-medium-blue'>{travel.description}</p>
                     </div>
                     <div className='w-full h-64'>

@@ -1,11 +1,12 @@
 'use client'
 
 import { TravelForm } from '@/app/lib/definitions';
-import { updateTravel2 } from '@/app/lib/actions';
+import { updateTravel } from '@/app/lib/actions';
 import { useState, useEffect, use } from 'react';
 import { calculateDistance } from '@/app/lib/data';
 import SearchAutocomplete from '../autocomplete/searchAutocomplete';
 import UploadImage from '../uploadImage';
+
 
 export default function EditTravelForm({
     travel
@@ -27,12 +28,10 @@ export default function EditTravelForm({
     const [travelimage, setTravelImage] = useState(travel.travelimage)
 
 
-
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        updateTravel2(travel.id, origincity, origincountry, originlatitude, originlongitude,
+        updateTravel(travel.user_id, travel.id, origincity, origincountry, originlatitude, originlongitude,
             destinycity, destinycountry, destinylatitude, destinylongitude,
             distanceinmeters, modal, travelimage, description);
 
@@ -98,6 +97,7 @@ export default function EditTravelForm({
                             <select
                                 id="modal"
                                 name="modal"
+                                required
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={handleChangeModal}
                                 defaultValue={travel.modal}
@@ -120,6 +120,7 @@ export default function EditTravelForm({
                             <textarea
                                 id="description"
                                 name="description"
+                                required
                                 placeholder="Descrição"
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={handleChangeDescription}
@@ -145,7 +146,5 @@ export default function EditTravelForm({
             </form>
 
         </div>
-
-
-    );
+    )
 }

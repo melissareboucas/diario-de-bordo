@@ -28,6 +28,7 @@ export default function EditPostForm({
                             <input
                                 id="title"
                                 name="title"
+                                required
                                 type="string"
                                 defaultValue={post.title}
                                 placeholder="Título"
@@ -40,6 +41,7 @@ export default function EditPostForm({
                             <textarea
                                 id="posttext"
                                 name="posttext"
+                                required
                                 defaultValue={post.posttext}
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                             />

@@ -7,22 +7,9 @@ import {
 } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
-import { constrainedMemory } from 'process';
 
 //TRAVEL fetchs
 const ITEMS_PER_PAGE = 4;
-export async function fetchTravels() {
-  noStore();
-  try {
-    const travels = await sql`SELECT * from travels`
-    return travels.rows as Travel[];
-
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch travels.');
-  }
-}
-
 export async function fetchTravelById(id: string) {
   noStore();
   try {
@@ -37,6 +24,7 @@ export async function fetchTravelById(id: string) {
 export async function fetchFilteredTravels(
   query: string,
   currentPage: number,
+  user_id: string
 ) {
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -61,6 +49,7 @@ export async function fetchFilteredTravels(
       FROM travels
       JOIN users ON travels.user_id = users.id
       WHERE
+        users.id = ${user_id} and (
         users.name ILIKE ${`%${query}%`} OR
         users.email ILIKE ${`%${query}%`} OR
         travels.origincity::text ILIKE ${`%${query}%`} OR
@@ -70,7 +59,7 @@ export async function fetchFilteredTravels(
         travels.distanceinmeters::text ILIKE ${`%${query}%`} OR
         travels.date::text ILIKE ${`%${query}%`} OR
         travels.modal::text ILIKE ${`%${query}%`} OR
-        travels.description::text ILIKE ${`%${query}%`}
+        travels.description::text ILIKE ${`%${query}%`})
       ORDER BY travels.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -103,24 +92,11 @@ export async function fetchTravelsPages(query: string) {
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch total number of invoices.');
+    throw new Error('Failed to fetch total number of travels.');
   }
 }
 
 //POSTS fetchs
-export async function fetchPosts() {
-  noStore();
-  try {
-    const posts = await sql`SELECT * from posts`
-    return posts.rows as Post[];
-
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch posts.');
-  }
-
-}
-
 export async function fetchPostById(id: string) {
   noStore();
   try {
@@ -144,17 +120,6 @@ export async function fetchPostsByTravelId(travels_id: string) {
 }
 
 //USER fetchs
-export async function fetchUsers() {
-  noStore();
-  try {
-    const users = await sql`SELECT * FROM users`;
-    return users.rows as User[];
-  } catch (error) {
-    console.error('Failed to fetch users:', error);
-    throw new Error('Failed to fetch user.');
-  }
-}
-
 export async function fetchUserById(id: string) {
   noStore();
   try {
@@ -166,26 +131,6 @@ export async function fetchUserById(id: string) {
   }
 }
 
-export async function getUser(id: string): Promise<User | undefined> {
-  try {
-    const user = await sql<User>`SELECT * FROM users WHERE id=${id}`;
-    return user.rows[0];
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
-  }
-}
-
-export async function fetchUserByEmail(email: string) {
-  noStore();
-  try {
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0] as User;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
-  }
-}
 
 //TOTALS fetchs
 export async function fetchTotalKmByUser(id: string) {
@@ -295,34 +240,3 @@ export async function fetchAllPathsCoordenates(id: string) {
     throw new Error('Failed to fetch sum.');
   }
 }
-
-
-
-/*
-export async function fetchInvoiceById(id: string) {
-  noStore();
-  try {
-    const data = await sql<InvoiceForm>`
-      SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
-    `;
-
-    const invoice = data.rows.map((invoice) => ({
-      ...invoice,
-      // Convert amount from cents to dollars
-      amount: invoice.amount / 100,
-    }));
-    
-    console.log(invoice); // Invoice is an empty array []
-    return invoice[0];
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch invoice.');
-  }
-}
-*/

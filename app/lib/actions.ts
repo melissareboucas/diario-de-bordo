@@ -4,11 +4,7 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { error } from 'console';
 import * as bcrypt from 'bcryptjs';
-
-//import { signIn } from '@/auth';
-import { AuthError } from 'next-auth';
 import { createSessionToken, openSessionToken } from './auth-service';
 import { cookies } from 'next/headers';
 
@@ -16,7 +12,6 @@ import { cookies } from 'next/headers';
 
 const FormSchema = z.object({
   id: z.string(),
-  //user_id: z.string(),
   origincity: z.string({
     invalid_type_error: 'Selecione uma cidade',
   }),
@@ -36,8 +31,6 @@ const FormSchema = z.object({
   travelimage: z.string(),
   description: z.string()
 });
-
-const CreateTravel = FormSchema.omit({ id: true, date: true });
 
 const UpdateTravel = FormSchema.omit({ id: true, date: true });
 
@@ -78,59 +71,10 @@ export type PostState = {
 }
 
 //TRAVELS CRUD
-/* outdated - this function uses form
-export async function createTravel(prevState: State, formData: FormData) {
-  // Validate form using Zod
-  const validatedFields = CreateTravel.safeParse({
-    //user_id: formData.get('user_id'),
-    origincity: formData.get('origincity'),
-    origincountry: formData.get('origincountry'),
-    destinycity: formData.get('destinycity'),
-    destinycountry: formData.get('destinycountry'),
-    distanceinmeters: formData.get('distanceinmeters'),
-    travelimage: formData.get('travelimage'),
-    description: formData.get('description')
-  });
-
-
-  // If form validation fails, return errors early. Otherwise, continue.
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
-    };
-  }
-
-  // Prepare data for insertion into the database
-  const { origincity, origincountry, destinycity, destinycountry, distanceinmeters, travelimage, description } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
-
-  // Insert data into the database
-  try {
-    await sql`
-        INSERT INTO travels (user_id, origincity, origincountry, destinycity, destinycountry, distanceinmeters, date, travelimage, description)
-        VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${origincity}, ${origincountry}, ${destinycity}, ${destinycountry}, ${distanceinmeters}, ${date}, ${travelimage}, ${description})
-      `;
-  } catch (error) {
-    console.log(error)
-    return {
-      message: 'Database Error: Failed to Create Invoice.',
-    };
-  }
-
-  // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath('/profile/travels');
-  redirect('/profile/travels');
-
-}
-*/
-
-//updated - this function uses the fields directly
-export async function createTravel(origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
+export async function createTravel(user_id: string, origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
   destinycity: string, destinycountry: string, destinylatitude: number, destinylongitude: number,
   distanceinmeters: number, modal: string, travelimage: string, description: string) {
 
-  //const date = new Date().toISOString().split('T')[0];
   const date = new Date().toISOString()
 
   // Insert data into the database
@@ -139,66 +83,32 @@ export async function createTravel(origincity: string, origincountry: string, or
           INSERT INTO travels (user_id, origincity, origincountry, originlatitude, originlongitude,
             destinycity, destinycountry, destinylatitude, destinylongitude,
             distanceinmeters, modal, date, travelimage, description)
-          VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${origincity}, ${origincountry}, ${originlatitude}, ${originlongitude},
+          VALUES (${user_id}, ${origincity}, ${origincountry}, ${originlatitude}, ${originlongitude},
           ${destinycity}, ${destinycountry}, ${destinylatitude}, ${destinylongitude},
           ${distanceinmeters}, ${modal}, ${date}, ${travelimage}, ${description})
         `;
   } catch (error) {
     console.log(error)
     return {
-      message: 'Database Error: Failed to Create Invoice.',
+      message: 'Database Error: Failed to Create Travel.',
     };
   }
 
-  // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath('/profile/travels');
   redirect('/profile/travels');
 }
 
-export async function updateTravel2(id: string, origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
+export async function updateTravel(user_id: string, id: string, origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
   destinycity: string, destinycountry: string, destinylatitude: number, destinylongitude: number,
   distanceinmeters: number, modal: string, travelimage: string, description: string) {
 
   try {
     await sql`
         UPDATE travels
-        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', 
+        SET user_id = ${user_id}, 
         origincity = ${origincity}, origincountry = ${origincountry}, originlatitude = ${originlatitude}, originlongitude = ${originlongitude},
         destinycity = ${destinycity}, destinycountry = ${destinycountry}, destinylatitude = ${destinylatitude}, destinylongitude = ${destinylongitude},
         distanceinmeters = ${distanceinmeters}, modal = ${modal}, travelimage = ${travelimage}, description = ${description}
-        WHERE id = ${id}
-      `;
-  } catch (error) {
-    console.log(error)
-    return { message: 'Database Error: Failed to Update Travel.' };
-  }
-
-  revalidatePath('/profile/travels');
-  redirect('/profile/travels');
-
-}
-
-
-export async function updateTravel(id: string, formData: FormData) {
-  console.log(formData)
-
-  const { origincity, origincountry, destinycity, destinycountry, distanceinmeters, description } = UpdateTravel.parse({
-    origincity: formData.get('origincity'),
-    origincountry: formData.get('origincountry'),
-    destinycity: formData.get('destinycity'),
-    destinycountry: formData.get('destinycountry'),
-    distanceinmeters: formData.get('distanceinmeters'),
-    travelimage: formData.get('travelimage'),
-    description: formData.get('description')
-  });
-
-  //const distanceinkm = distanceinmeters / 1000;
-
-  try {
-    await sql`
-        UPDATE travels
-        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', origincity = ${origincity}, origincountry = ${origincountry}, destinycity = ${destinycity}, 
-        destinycountry = ${destinycountry}, distanceinmeters = ${distanceinmeters}, travelimage = '/assets/sp.png', description = ${description}
         WHERE id = ${id}
       `;
   } catch (error) {
@@ -232,8 +142,6 @@ export async function createPost(prevState: PostState, formData: FormData) {
   });
 
 
-
-
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors)
@@ -243,28 +151,24 @@ export async function createPost(prevState: PostState, formData: FormData) {
     };
   }
   // Prepare data for insertion into the database
-  const { travels_id, title, posttext } = validatedFields.data;
+  const { user_id, travels_id, title, posttext } = validatedFields.data;
   const postdate = new Date().toISOString().split('T')[0];
 
   // Insert data into the database
   try {
     await sql`
         INSERT INTO posts (user_id, travels_id, title, posttext, postdate)
-        VALUES ('410544b2-4001-4271-9855-fec4b6a6442a', ${travels_id}, ${title}, ${posttext}, ${postdate})
+        VALUES (${user_id}, ${travels_id}, ${title}, ${posttext}, ${postdate})
       `;
   } catch (error) {
     console.log(error)
     return {
-      message: 'Database Error: Failed to Create Invoice.',
+      message: 'Database Error: Failed to Create Post.',
     };
   }
 
-
-  // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath(`/profile/travels/${travels_id}/posts`);
   redirect(`/profile/travels/${travels_id}/posts`);
-
-
 }
 
 export async function updatePost(id: string, formData: FormData) {
@@ -278,7 +182,7 @@ export async function updatePost(id: string, formData: FormData) {
   try {
     await sql`
         UPDATE posts
-        SET user_id = '410544b2-4001-4271-9855-fec4b6a6442a', travels_id = ${travels_id}, title = ${title}, posttext = ${posttext}
+        SET user_id = ${user_id}, travels_id = ${travels_id}, title = ${title}, posttext = ${posttext}
         WHERE id = ${id}
       `;
   } catch (error) {
@@ -286,7 +190,6 @@ export async function updatePost(id: string, formData: FormData) {
     return { message: 'Database Error: Failed to Update Post.' };
   }
 
-  // Revalidate the cache for the invoices page and redirect the user.
   revalidatePath(`/profile/travels/${travels_id}/posts`);
   redirect(`/profile/travels/${travels_id}/posts`);
 
@@ -302,28 +205,8 @@ export async function deletePost(id: string, travels_id: string) {
   }
 }
 
-//LOGIN
-/*
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
-  }
-}
-*/
 
+//LOGIN/SIGNUP
 export async function createUser(name: string, email: string, password: string, image_url: string) {
   'use server';
 

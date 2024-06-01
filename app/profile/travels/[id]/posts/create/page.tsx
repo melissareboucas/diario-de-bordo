@@ -15,7 +15,7 @@ export default async function CreatePost({ params }: { params: { id: string } })
                 <TopMenu enableSearch={false}/>
             </Suspense>
 
-            <CreatePostForm travels_id={travel.id}/>
+            <CreatePostForm travels_id={travel.id} user_id={travel.user_id}/>
 
         </>
     );

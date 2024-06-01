@@ -27,7 +27,7 @@ export default function UploadImage({ onImageChange, placeholderImage }: UploadI
 
   return (
     <div {...getRootProps()} style={{ width: '400px', height: '450px' }}>
-      <input {...getInputProps()} />
+      <input {...getInputProps()}/>
       {
         image ? (
           <img src={image} alt="Uploaded"  />

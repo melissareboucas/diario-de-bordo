@@ -157,7 +157,7 @@ export default function SearchAutocomplete({ onSelect, placeHolderText }: Search
                 disabled={!ready}
                 placeholder={placeHolderText}
                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
-
+                required
             />
             {/* We can use the "status" to decide whether we should display the dropdown or not */}
             {status === "OK" && <ul>{renderSuggestions()}</ul>}

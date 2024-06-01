@@ -4,7 +4,7 @@ import {
 
 import Link from "next/link";
 import Search from "./search";
-import ProfileMenu from "./profileMenu";
+import { DropDownProfileMenu } from './dropDownProfileMenu';
 
 
 interface TopMenuProps {
@@ -37,7 +37,7 @@ export default function TopMenu({ enableSearch }: TopMenuProps) {
                     </Link>
 
                 </ul>
-                <ProfileMenu />
+                <DropDownProfileMenu />
 
             </div>
         </nav>

@@ -6,8 +6,11 @@ import { useState, useEffect } from "react";
 import { calculateDistance } from "@/app/lib/data";
 import UploadImage from "../uploadImage";
 
-
-export default function CreateTravelForm() {
+export default function CreateTravelForm({
+    sub
+}: {
+    sub: string;
+}) {
     const [origincity, setOrigincity] = useState('')
     const [origincountry, setOrigincountry] = useState('')
     const [originlatitude, setOriginlatitude] = useState(0)
@@ -20,12 +23,14 @@ export default function CreateTravelForm() {
     const [description, setDescription] = useState('')
     const [modal, setModal] = useState('')
     const [travelimage, setTravelImage] = useState('')
-    
+
+
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        createTravel(origincity, origincountry, originlatitude, originlongitude,
+        createTravel(sub, origincity, origincountry, originlatitude, originlongitude,
             destinycity, destinycountry, destinylatitude, destinylongitude,
             distanceinmeters, modal, travelimage, description);
 
@@ -67,6 +72,7 @@ export default function CreateTravelForm() {
         setTravelImage(image)
     };
 
+
     return (
         <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
@@ -84,7 +90,7 @@ export default function CreateTravelForm() {
                             placeholder="user_id"
                             type="hidden"
                             readOnly
-                            value={"410544b2-4001-4271-9855-fec4b6a6442a"}
+                            value={sub}
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
 
@@ -99,6 +105,7 @@ export default function CreateTravelForm() {
                             <select
                                 id="modal"
                                 name="modal"
+                                required
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={(e) => setModal(e.target.value)}
                                 value={modal}
@@ -122,6 +129,7 @@ export default function CreateTravelForm() {
                             <textarea
                                 id="description"
                                 name="description"
+                                required
                                 placeholder="Descrição"
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={handleChangeDescription}
@@ -143,9 +151,7 @@ export default function CreateTravelForm() {
                     <UploadImage onImageChange={handleImageChange} placeholderImage="/assets/addImage.png" />
                 </div>
             </form>
-            {/*<img src="/assets/addImage.png" style={{ width: '400px', height: '450px' }} ></img>*/}
+            
         </div>
-
-
-    );
+    )
 }

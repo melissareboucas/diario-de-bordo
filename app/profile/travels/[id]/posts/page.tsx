@@ -50,7 +50,7 @@ export default async function Posts({ params }: { params: { id: string } }) {
                     <div className='flex gap-2 m-8 items-center'>
                         <h1 className='font-semibold text-custom-dark-blue text-2xl'>{post.title}</h1>
                     </div>
-                    <div className='ml-8 mr-8 mb-2'>
+                    <div className='ml-8 mr-8 mb-2 max-h-[150px] overflow-y-auto'>
                         <p className='text-custom-medium-blue'>{post.posttext}</p>
                     </div>
 

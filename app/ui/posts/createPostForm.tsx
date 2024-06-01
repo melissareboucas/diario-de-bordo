@@ -4,9 +4,10 @@ import { createPost } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 
 
-export default async function CreatePostForm({ travels_id }: { travels_id: string }) {
+export default function CreatePostForm({ travels_id, user_id }: { travels_id: string, user_id: string}) {
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(createPost, initialState);
+
     return (
         <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
@@ -23,7 +24,7 @@ export default async function CreatePostForm({ travels_id }: { travels_id: strin
                             placeholder="origincity"
                             type="hidden"
                             readOnly
-                            value={"410544b2-4001-4271-9855-fec4b6a6442a"}
+                            value={user_id}
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         />
 
@@ -44,6 +45,7 @@ export default async function CreatePostForm({ travels_id }: { travels_id: strin
                             <input
                                 id="title"
                                 name="title"
+                                required
                                 type="string"
                                 placeholder="Título"
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue py-2 pl-10 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue "
@@ -55,6 +57,7 @@ export default async function CreatePostForm({ travels_id }: { travels_id: strin
                             <textarea
                                 id="posttext"
                                 name="posttext"
+                                required
                                 placeholder="Conta aí como foi seu dia..."
                                 className="peer block w-full rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-10 pr-10 pt-2 pb-40 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                             />
@@ -75,5 +78,5 @@ export default async function CreatePostForm({ travels_id }: { travels_id: strin
             </div>
 
         </div>
-    );
+    )
 }

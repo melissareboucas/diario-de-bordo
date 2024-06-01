@@ -45,6 +45,7 @@ export default function Login() {
                             <input
                                 id="email"
                                 name="email"
+                                required
                                 placeholder="Email"
                                 className="peer block rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-4 py-2 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"
                                 onChange={handleSetEmail}
@@ -55,6 +56,7 @@ export default function Login() {
                             <input
                                 id="password"
                                 name="password"
+                                required
                                 placeholder="Senha"
                                 type="password"
                                 className="peer block rounded-3xl border border-custom-medium-blue text-custom-medium-blue pl-4 py-2 text-sm outline-2 placeholder:text-custom-medium-blue focus:outline-custom-medium-blue"

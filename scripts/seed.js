@@ -16,7 +16,7 @@ async function seedUsers(client) {
         name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        image_url VARCHAR(255)
+        image_url TEXT
       );
     `;
 

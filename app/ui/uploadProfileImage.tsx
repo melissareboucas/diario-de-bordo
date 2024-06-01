@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-interface UploadImageProps {
+interface UploadProfileImageProps {
     onImageChange: (base64String: string) => void;
-    placeholderImage?: string; 
   }
 
-export default function UploadImage({ onImageChange, placeholderImage }: UploadImageProps) {
+export default function UploadProfileImage({ onImageChange }: UploadProfileImageProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -30,13 +29,12 @@ export default function UploadImage({ onImageChange, placeholderImage }: UploadI
       <input {...getInputProps()} />
       {
         image ? (
-          <img src={image} alt="Uploaded"  />
+          <img src={image} alt="Uploaded" className='rounded-full border border-4 border-custom-medium-blue' style={{ width: '210px', height: '210px' }}/>
         ) : (
-          placeholderImage ? (
-            <img src={placeholderImage} alt="Placeholder"/>
-          ) : (
-            <p>Arraste e solte uma imagem aqui, ou clique para selecionar uma imagem.</p>
-          )
+          (
+            <img src='/assets/profileImagePlaceholder.png' alt="Placeholder" className='rounded-full'
+            style={{ width: '210px', height: '210px' }}/>
+          ) 
         )
       }
     </div>

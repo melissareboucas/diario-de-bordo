@@ -1,10 +1,11 @@
 import {
     GlobeAmericasIcon,
-  } from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline';
 
 import Link from "next/link";
 import Search from "./search";
 import ProfileMenu from "./profileMenu";
+
 
 interface TopMenuProps {
     enableSearch: boolean
@@ -20,18 +21,16 @@ export default function TopMenu({ enableSearch }: TopMenuProps) {
                     <Search />
                 )}
                 {!enableSearch && (
-                    <GlobeAmericasIcon className='w-10 h-10' />
+                    <Link key="profile" href="/profile">
+                        <GlobeAmericasIcon className='w-10 h-10' />
+                    </Link>
+
                 )}
 
-                <ul className="flex space-x-10">
+
+                <ul className="flex gap-4">
                     <Link className="font-semibold" key="travels" href="/profile/travels">
                         Viagens
-                    </Link>
-                    <Link className="font-semibold" key="countries" href="/profile/countries">
-                        Países
-                    </Link>
-                    <Link className="font-semibold" key="cities" href="/profile/cities">
-                        Cidades
                     </Link>
                     <Link className="font-semibold" key="community" href="/profile/community">
                         Comunidade
@@ -39,6 +38,7 @@ export default function TopMenu({ enableSearch }: TopMenuProps) {
 
                 </ul>
                 <ProfileMenu />
+
             </div>
         </nav>
     </>

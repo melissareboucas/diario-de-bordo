@@ -5,9 +5,12 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { error } from 'console';
+import * as bcrypt from 'bcryptjs';
 
 //import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { createSessionToken, openSessionToken } from './auth-service';
+import { cookies } from 'next/headers';
 
 
 
@@ -129,10 +132,10 @@ export async function createTravel(origincity: string, origincountry: string, or
 
   //const date = new Date().toISOString().split('T')[0];
   const date = new Date().toISOString()
-  console.log(date)
-    // Insert data into the database
-    try {
-      await sql`
+
+  // Insert data into the database
+  try {
+    await sql`
           INSERT INTO travels (user_id, origincity, origincountry, originlatitude, originlongitude,
             destinycity, destinycountry, destinylatitude, destinylongitude,
             distanceinmeters, modal, date, travelimage, description)
@@ -140,16 +143,16 @@ export async function createTravel(origincity: string, origincountry: string, or
           ${destinycity}, ${destinycountry}, ${destinylatitude}, ${destinylongitude},
           ${distanceinmeters}, ${modal}, ${date}, ${travelimage}, ${description})
         `;
-    } catch (error) {
-      console.log(error)
-      return {
-        message: 'Database Error: Failed to Create Invoice.',
-      };
-    }
-  
-    // Revalidate the cache for the invoices page and redirect the user.
-    revalidatePath('/profile/travels');
-    redirect('/profile/travels');
+  } catch (error) {
+    console.log(error)
+    return {
+      message: 'Database Error: Failed to Create Invoice.',
+    };
+  }
+
+  // Revalidate the cache for the invoices page and redirect the user.
+  revalidatePath('/profile/travels');
+  redirect('/profile/travels');
 }
 
 export async function updateTravel2(id: string, origincity: string, origincountry: string, originlatitude: number, originlongitude: number,
@@ -228,8 +231,8 @@ export async function createPost(prevState: PostState, formData: FormData) {
     posttext: formData.get('posttext'),
   });
 
-  
-  
+
+
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -320,3 +323,70 @@ export async function authenticate(
   }
 }
 */
+
+export async function createUser(name: string, email: string, password: string, image_url: string) {
+  'use server';
+
+  const hashpassword = await bcrypt.hash(password, 10);
+
+  // Insert data into the database
+  try {
+    await sql`
+    INSERT INTO users (name, email, password, image_url)
+    VALUES (${name}, ${email}, ${hashpassword}, ${image_url})
+  `;
+  } catch (error) {
+    console.log(error)
+    return {
+      message: 'Database Error: Failed to Create User.',
+    };
+  }
+
+  revalidatePath('/login');
+  redirect('/login');
+}
+
+export async function login(email: string, password: string) {
+  'use server';
+
+  const users = await sql`SELECT * FROM users WHERE email=${email}`;
+  const user = users.rows[0];
+
+  if (!user) {
+    revalidatePath('/login');
+    redirect('/login');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+
+  if (!isMatch) {
+    console.log("usuário ou senha inválido");
+    revalidatePath('/login');
+    redirect('/login');
+  }
+
+  await createSessionToken({sub: user.id});
+
+  revalidatePath('/profile');
+  redirect('/profile');
+}
+
+export async function isSessionValid() {
+  const sessionCookie = cookies().get('session')
+
+  if (sessionCookie) {
+    const {value} = sessionCookie;
+    const {exp} = await openSessionToken(value);
+    const currentDate = new Date().getTime();
+
+    return ((exp as number)*1000) > currentDate; 
+  }
+
+  return false
+}
+
+export async function logout() {
+  cookies().delete('session')
+  revalidatePath('/');
+  redirect('/');
+}

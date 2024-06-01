@@ -22,7 +22,7 @@ export default async function UserInfo({
 
     return (
         <>
-            <div className="container relative px-4 py-4 w-200 ">
+            <div className="container relative px-4 py-6 w-200 ">
                 {origin.length > 0 && paths.length > 0 && (
                     <Map origin={origin[0]} paths={paths} />
                 )}

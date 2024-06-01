@@ -95,7 +95,7 @@ export default function Map({ origin, paths }: MapProps) {
 
     return (
         <>
-            <h1>Google Maps</h1>
+            
             <div className="h-[300px]" ref={mapRef} />
         </>
     )

@@ -7,7 +7,7 @@ O propósito deste documento é definir as necessidades de alto-nível e caracte
 
 ## **2. Descrição do Sistema**
 
-O sistema diário de bordo é uma aplicação onde o usuário pode documentar e guardar memórias de suas viagens. A ideia é mostrar, de uma maneira visual, o histórico de viagens de um usuário, o qual pode, caso deseje, ser compartilhado em uma rede de conexões.
+O sistema diário de bordo é uma aplicação onde o usuário pode documentar e guardar memórias de suas viagens. A ideia é mostrar, de uma maneira visual, o histórico de viagens de um usuário, suas postagens em cada viagem e métricas de viagens totais realizadas.
 
 Nesse contexto, esse sistema se propõe em desenvolver uma aplicação Web para receber as entradas de diário de bordo dos usuários e apresentá-las em um mapa mundial.
 
@@ -17,7 +17,7 @@ O sistema contém as seguintes funcionalidades:
 - Apresentar o total de países visitados pelo usuário;
 - Apresentar o total de cidades visitadas pelo usuário;
 - Apresentar as postagens de diário de bordo de cada viagem (pode conter textos ou imagens);
-- Publicar em uma rede de conexões as postagens desejadas.
+- Publicar em uma rede de conexões as postagens desejadas. ```Trabalhos Futuros```
 
 ## **3. PERSONAS**
 

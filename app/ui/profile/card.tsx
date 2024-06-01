@@ -3,7 +3,7 @@
 import {
     ChevronDownIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+
 import { useState } from 'react';
 
 interface CardProps {
@@ -13,21 +13,13 @@ interface CardProps {
     text: string
 }
 
-const links = [
-    { title: 'Viagens', href: '/profile/travels' },
-    { title: 'Países', href: '/profile/countries' },
-    { title: 'Cidades', href: '/profile/cities' },
-];
-
 
 export default function Card({ title, img_url, total, text }: CardProps) {
-
-    const link = links.find(link => link.title === title);
 
     const [mostrarTexto, setMostrarTexto] = useState(false);
 
     return (
-        <Link key={title} href={(link ? link.href : '/profile')}>
+        <div key={title} >
             <div
                 className="relative"
                 onMouseEnter={() => setMostrarTexto(true)}
@@ -49,6 +41,6 @@ export default function Card({ title, img_url, total, text }: CardProps) {
                     )}
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }

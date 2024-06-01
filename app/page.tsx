@@ -10,7 +10,10 @@ export default function Home() {
     <main>
       <div className='flex justify-between mt-4 mb-4 mr-8 ml-8 items-center'>
         <GlobeAmericasIcon className='w-10 h-10' />
-        <a href='/profile' className='text-custom-medium-blue'>Entrar</a>
+        <div className='flex gap-4'>
+          <a href='/signup' className='text-custom-medium-blue'>Cadastrar</a>
+          <a href='/login' className='text-custom-medium-blue'>Entrar</a>
+        </div>
       </div>
 
       <div>

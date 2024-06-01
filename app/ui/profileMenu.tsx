@@ -1,12 +1,12 @@
 
 import Image from 'next/image';
+import { DropDownProfileMenu } from './dropDownProfileMenu';
 
 
 export default function ProfileMenu() {
 
     return (
-        <a href='/profile'>
-            <div className="relative">
+            <div className="relative flex gap-1 justify-center items-center">
 
                 <Image
                     src="/assets/profile.png"
@@ -14,7 +14,7 @@ export default function ProfileMenu() {
                     width={38}
                     height={38}
                 />
+                <DropDownProfileMenu />
             </div>
-        </a>
     )
 }

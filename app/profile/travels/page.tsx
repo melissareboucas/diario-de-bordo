@@ -20,8 +20,6 @@ export default async function Travels({
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
-    const totalPages = await fetchTravelsPages(query);
-
     const cookieStore = cookies();
     const token = cookieStore.get('session')?.value;
 
@@ -39,7 +37,7 @@ export default async function Travels({
             return <div>Redirecionando...</div>;
         }
 
-
+        const totalPages = await fetchTravelsPages(query, sub);
 
         return (
             <>

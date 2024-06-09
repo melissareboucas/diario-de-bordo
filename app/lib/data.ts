@@ -70,13 +70,14 @@ export async function fetchFilteredTravels(
   }
 }
 
-export async function fetchTravelsPages(query: string) {
+export async function fetchTravelsPages(query: string, user_id: string) {
   noStore();
   try {
     const count = await sql`SELECT COUNT(*)
     FROM travels
     JOIN users ON travels.user_id = users.id
     WHERE
+      users.id = ${user_id} and (
       users.name ILIKE ${`%${query}%`} OR
       users.email ILIKE ${`%${query}%`} OR
       travels.origincity::text ILIKE ${`%${query}%`} OR
@@ -85,7 +86,7 @@ export async function fetchTravelsPages(query: string) {
       travels.destinycountry::text ILIKE ${`%${query}%`} OR
       travels.distanceinmeters::text ILIKE ${`%${query}%`} OR
       travels.date::text ILIKE ${`%${query}%`} OR
-      travels.description::text ILIKE ${`%${query}%`}
+      travels.description::text ILIKE ${`%${query}%`})
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);

@@ -5,15 +5,28 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { login } from '../lib/actions';
+import Loading from '../ui/loading';
 
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
-        login(email, password);
+        
+        try{
+            await login(email, password);
+
+        } catch {
+            console.log("Não foi possível criar a viagem")
+        } finally {
+            setLoading(false);
+        }
+
+        
 
     };
 
@@ -26,6 +39,7 @@ export default function Login() {
     };
 
     return <>
+        {loading && <Loading />}
         <div className='flex justify-between mt-4 mb-4 mr-8 ml-8 items-center'>
             <GlobeAmericasIcon className='w-10 h-10' />
             <div className='flex gap-4'>

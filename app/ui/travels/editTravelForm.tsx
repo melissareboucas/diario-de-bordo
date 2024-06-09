@@ -6,6 +6,7 @@ import { useState, useEffect, use } from 'react';
 import { calculateDistance } from '@/app/lib/data';
 import SearchAutocomplete from '../autocomplete/searchAutocomplete';
 import UploadImage from '../uploadImage';
+import Loading from '../loading';
 
 
 export default function EditTravelForm({
@@ -26,14 +27,26 @@ export default function EditTravelForm({
     const [modal, setModal] = useState(travel.modal)
     const [description, setDescription] = useState(travel.description)
     const [travelimage, setTravelImage] = useState(travel.travelimage)
+    const [loading, setLoading] = useState(false);
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
-        updateTravel(travel.user_id, travel.id, origincity, origincountry, originlatitude, originlongitude,
-            destinycity, destinycountry, destinylatitude, destinylongitude,
-            distanceinmeters, modal, travelimage, description);
+        
+        try{
+            await updateTravel(travel.user_id, travel.id, origincity, origincountry, originlatitude, originlongitude,
+                destinycity, destinycountry, destinylatitude, destinylongitude,
+                distanceinmeters, modal, travelimage, description);
+
+        } catch {
+            console.log("Não foi possível criar a viagem")
+        } finally {
+            setLoading(false);
+        }
+
+        
 
     };
 
@@ -75,6 +88,7 @@ export default function EditTravelForm({
 
     return (
         <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
+            {loading && <Loading />}
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
                 Editar Detalhes
             </div>

@@ -7,17 +7,30 @@ import {
 import UploadProfileImage from '../ui/uploadProfileImage';
 import { useState } from 'react';
 import { createUser } from '../lib/actions';
+import Loading from '../ui/loading';
 
 export default function SignUp() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [image_url, setImage_url] = useState('')
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
-        createUser(name, email, password, image_url);
+        
+        try{
+            await createUser(name, email, password, image_url);
+
+        } catch {
+            console.log("Não foi possível criar a viagem")
+        } finally {
+            setLoading(false);
+        }
+
+        
 
     };
 
@@ -39,6 +52,7 @@ export default function SignUp() {
     };
 
     return <>
+        {loading && <Loading />}
         <div className='flex justify-between mt-4 mb-4 mr-8 ml-8 items-center'>
             <GlobeAmericasIcon className='w-10 h-10' />
             <div className='flex gap-4'>

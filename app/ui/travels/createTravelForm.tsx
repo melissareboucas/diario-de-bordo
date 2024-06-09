@@ -5,6 +5,7 @@ import { createTravel } from '@/app/lib/actions';
 import { useState, useEffect } from "react";
 import { calculateDistance } from "@/app/lib/data";
 import UploadImage from "../uploadImage";
+import Loading from "../loading";
 
 export default function CreateTravelForm({
     sub
@@ -23,16 +24,27 @@ export default function CreateTravelForm({
     const [description, setDescription] = useState('')
     const [modal, setModal] = useState('')
     const [travelimage, setTravelImage] = useState('')
+    const [loading, setLoading] = useState(false);
 
 
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
-        createTravel(sub, origincity, origincountry, originlatitude, originlongitude,
-            destinycity, destinycountry, destinylatitude, destinylongitude,
-            distanceinmeters, modal, travelimage, description);
+        try{
+            await createTravel(sub, origincity, origincountry, originlatitude, originlongitude,
+                destinycity, destinycountry, destinylatitude, destinylongitude,
+                distanceinmeters, modal, travelimage, description)
+
+        } catch {
+            console.log("Não foi possível criar a viagem")
+        } finally {
+            setLoading(false);
+        }
+
+            
 
     };
 
@@ -75,6 +87,7 @@ export default function CreateTravelForm({
 
     return (
         <div className="w-128 h-[600px] m-4 border border-custom-medium-blue  rounded-3xl">
+            {loading && <Loading />}
             <div className="m-10 text-custom-dark-blue font-bold text-4xl">
                 Como foi sua viagem?
             </div>
